@@ -16,5 +16,7 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'comma-dangle': [0, 'always'], // 尾逗号
     'space-before-function-paren': [0, 'always'], // 函数括号空格
+    'space-before-function-paren': 0,
+    indent: 'off',
   },
 }
