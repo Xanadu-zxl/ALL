@@ -4,7 +4,26 @@ import router from './router'
 import store from './store'
 import '@/assets/css/basis.scss'
 import 'vant/lib/index.css'
+import countTo from 'vue3-count-to'
+import { Icon, Popup, Picker, Tab, Tabs } from 'vant'
+import * as echarts from 'echarts/core'
+import {
+    BarChart,
+    PieChart,
+    LineChart
+} from 'echarts/charts'
+import {
+    TitleComponent,
+    TooltipComponent,
+    LegendComponent,
+    DataZoomComponent,
+    GridComponent
+} from 'echarts/components'
+import {
+    CanvasRenderer
+} from 'echarts/renderers'
+echarts.use(
+    [TitleComponent, TooltipComponent, LegendComponent, DataZoomComponent, GridComponent, BarChart, PieChart, LineChart, CanvasRenderer]
+)
 
-import { Icon, Popup, Picker } from 'vant'
-
-createApp(App).use(store).use(router).use(Icon).use(Popup).use(Picker).mount('#app')
+createApp(App).use(countTo).use(store).use(router).use(Icon).use(Tab).use(Tabs).use(Popup).use(Picker).mount('#app')

@@ -18,5 +18,6 @@ module.exports = {
     'space-before-function-paren': [0, 'always'], // 函数括号空格
     'space-before-function-paren': 0,
     indent: 'off',
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
   },
 }

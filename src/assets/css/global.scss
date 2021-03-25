@@ -1,7 +1,8 @@
 //resource.scss
-$themeColor: #485ae9;
-$blackColor: #333333;
-$Color: #191f30;
+$pdgtColor: #2196f3;
+$pdgtTextColor: #6b7885;
+$pdgtTitleColor: #95a4b3;
+$pdgth2Color: #313c56;
 @mixin triangle {
   &:after {
     content: '';
@@ -34,7 +35,13 @@ $Color: #191f30;
   justify-content: center;
   align-items: center;
 }
-@mixin dsbac {
+@mixin ddccc {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+@mixin djbac {
   display: flex;
   justify-content: space-between;
   align-items: center;

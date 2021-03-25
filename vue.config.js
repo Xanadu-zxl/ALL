@@ -7,7 +7,6 @@ const path = require('path')
 const resolve = (dir) => path.join(__dirname, dir)
 
 module.exports = {
-  publicPath: '',
   chainWebpack: (config) => {
     config.plugin('html').tap((args) => {
       args[0].title = '民政服务办公室'
