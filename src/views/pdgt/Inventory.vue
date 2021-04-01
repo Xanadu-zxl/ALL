@@ -8,6 +8,20 @@
       </div>
     </div>
     <Bar />
+    <Card :title="dataObj.pieData.title">
+      <template v-slot:subtitle> </template>
+      <template v-slot:chart>
+        <Pie :data="dataObj.pieData" />
+      </template>
+    </Card>
+    <Card :title="dataObj.barData.title">
+      <template v-slot:subtitle>
+        <span class="subtitle">已出租/资产数</span>
+      </template>
+      <template v-slot:chart>
+        <Bars />
+      </template>
+    </Card>
 
     <van-popup
       round
@@ -26,17 +40,85 @@
 
 <script lang="ts">
 import { defineComponent, ref, reactive } from 'vue'
+import Pie from '@/components/Pie.vue'
 import Bar from '@/components/Bar.vue'
+import Bars from '@/components/Bars.vue'
+import Card from '@/components/Card.vue'
 
 export default defineComponent({
   name: 'inventory',
   components: {
+    Bars,
     Bar,
+    Pie,
+    Card,
   },
   props: {
     data: Object,
   },
   setup() {
+    const dataObj = {
+      pieData: {
+        title: '房屋状态分布',
+        id: 'pie1',
+        chartData: {
+          title: {
+            textStyle: {
+              color: '#333333',
+              fontWeight: 500,
+              fontSize: 16,
+            },
+          },
+          legend: {
+            show: true,
+            bottom: '8%',
+          },
+          color: ['#35B0FF', '#857BFF', '#FF7474'],
+          tooltip: {
+            show: true,
+            trigger: 'item',
+            triggerOn: 'mousemove',
+            confine: true,
+            backgroundColor: '#fff',
+            borderRadius: 4,
+            borderColor: '#fff',
+            formatter: (params) => {
+              return `${params.marker}${params.name}     ${params.data.value} (${params.percent}%)`
+            },
+            textStyle: {
+              color: '#313C56',
+              fontSize: 12,
+            },
+          },
+          series: [
+            {
+              bottom: '8%',
+              color: ['#35B0FF', '#857BFF', '#FF7474'],
+              name: '房屋状态分布',
+              type: 'pie',
+              radius: ['25%', '40%'],
+              avoidLabelOverlap: false,
+              data: [
+                { value: 435, name: '在租' },
+                { value: 635, name: '空置' },
+                { value: 445, name: '合同纠纷' },
+              ],
+              label: {
+                align: 'right',
+                formatter: '{b}\n{c}（{d}%)',
+              },
+              labelLine: {
+                length: 15,
+                length2: 6,
+              },
+            },
+          ],
+        },
+      },
+      barData: {
+        title: '资产类型',
+      },
+    }
     const state = reactive({
       columns: [
         '全区域',
@@ -66,6 +148,7 @@ export default defineComponent({
       onCancel,
       onConfirm,
       community,
+      dataObj,
     }
   },
 })
@@ -74,6 +157,7 @@ export default defineComponent({
 .inventory {
   .title {
     @include djbac;
+    margin-bottom: 11px;
 
     .title-h2 {
       font-weight: 500;

@@ -35,22 +35,24 @@ $pdgth2Color: #313c56;
   justify-content: center;
   align-items: center;
 }
-@mixin ddccc {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
+
 @mixin djbac {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-@mixin dcsafs {
+@mixin ddcjaas {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: flex-start;
+}
+
+@mixin ddccc {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 @mixin fineBorder {

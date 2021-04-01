@@ -22,7 +22,6 @@
   }
 
   .main {
-    min-height: 700px;
     background: linear-gradient(
       180deg,
       #ffffff 0%,
@@ -38,7 +37,7 @@
   }
   .navs {
     padding: 4px;
-    margin-bottom: 23px;
+    margin-bottom: 27px;
     background: #f4f4f8;
     border-radius: 8px;
     @include dcc;
