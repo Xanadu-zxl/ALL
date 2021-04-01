@@ -1,90 +1,35 @@
 <template>
   <div class="bars">
-    <div class="item">
-      <img src="@/assets/svg/cf.svg" alt="" />
-      <div id="bars" class="chart"></div>
+    <div class="item" v-for="(item, index) in chartList" :key="item.index">
+      <img :src="imgUrl[index]" alt="" />
+      <Baritem class="chart" :chart="item"></Baritem>
     </div>
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, onMounted } from 'vue'
-import * as echarts from 'echarts/core'
+import { defineComponent } from 'vue'
+import Baritem from '@/components/BarItem.vue'
+import global from '@/tool/global.ts'
+
 export default defineComponent({
-  name: 'bars',
+  name: 'BarItem',
+  components: {
+    Baritem,
+  },
   setup() {
-    const createEcharts = () => {
-      const myChart = echarts.init(document.getElementById('bars'))
-      myChart.setOption({
-        xAxis: {
-          type: 'value',
-          data: ['received', 'accountsReceivable'],
-          show: false,
-        },
-        yAxis: {
-          type: 'category',
-          show: false,
-        },
-        grid: {
-          bottom: 40,
-          right: 32,
-          left: 12,
-        },
-        series: [
-          {
-            name: '标准厂房',
-            type: 'bar',
-            stack: '总量',
-            data: [138798],
-            barWidth: 4,
-            itemStyle: {
-              color: '#35B0FF',
-              borderRadius: [4, 4, 4, 4],
-            },
-            label: {
-              show: true,
-              formatter: '{value| {a}}',
-              align: 'left',
-              position: [-4, -24],
-              rich: {
-                value: {
-                  color: '#313C56',
-                  fontSize: 14,
-                  fontWeight: 400,
-                  lineHeight: 18,
-                },
-              },
-            },
-          },
-          {
-            name: '应收',
-            type: 'bar',
-            stack: '总量',
-            data: [286300],
-            itemStyle: {
-              color: '#F0EFF4',
-              borderRadius: [0, 4, 4, 0],
-            },
-            label: {
-              show: true,
-              formatter: '{value| {c}/12312321}',
-              align: 'right',
-              position: ['100%', -24],
-              rich: {
-                value: {
-                  color: '#6B7885',
-                  fontSize: 14,
-                  fontWeight: 400,
-                  lineHeight: 18,
-                },
-              },
-            },
-          },
-        ],
-      })
-    }
-    onMounted(() => {
-      createEcharts()
-    })
+    const imgUrl = global.iconUrl
+
+    const chartList = [
+      { id: 'cfBar', title: '标准厂房', molecular: 10, denominator: 20 },
+      { id: 'spBar', title: '零星商铺', molecular: 33, denominator: 82 },
+      { id: 'scBar', title: '农贸市场', molecular: 1, denominator: 16 },
+      { id: 'bgsBar', title: '办公室', molecular: 2, denominator: 23 },
+      { id: 'xxBar', title: '学校', molecular: 10, denominator: 20 },
+      { id: 'ckBar', title: '仓库', molecular: 1, denominator: 2 },
+      { id: 'qtBar', title: '其他', molecular: 155, denominator: 166 },
+    ]
+
+    return { chartList, imgUrl }
   },
 })
 </script>

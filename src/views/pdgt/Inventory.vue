@@ -4,7 +4,7 @@
       <h2 class="title-h2">资产概述</h2>
       <div class="title-options" @click="showPopup">
         <span>全区域</span>
-        <van-icon class="arrow-down" name="arrow-down" />
+        <van-icon color="#3F3845" class="arrow-down" name="arrow-down" />
       </div>
     </div>
     <Bar />
@@ -20,6 +20,15 @@
       </template>
       <template v-slot:chart>
         <Bars />
+      </template>
+    </Card>
+    <Card :title="dataObj.tableData.title">
+      <template v-slot:subtitle>
+        <span class="subtitle">在租·373</span>
+        <van-icon color="#3F3845" class="arrow-down" name="arrow-down" />
+      </template>
+      <template v-slot:chart>
+        123
       </template>
     </Card>
 
@@ -118,6 +127,9 @@ export default defineComponent({
       barData: {
         title: '资产类型',
       },
+      tableData: {
+        title: '租赁详情',
+      },
     }
     const state = reactive({
       columns: [
@@ -184,10 +196,6 @@ export default defineComponent({
       line-height: 18px;
       color: $pdgtTextColor;
       @include dcc;
-
-      .arrow-down {
-        padding: 0 6px;
-      }
     }
   }
 
@@ -196,6 +204,9 @@ export default defineComponent({
     border: 1px solid #f4f4f8;
     box-sizing: border-box;
     border-radius: 12px;
+  }
+  .arrow-down {
+    padding: 0 6px;
   }
 }
 </style>
