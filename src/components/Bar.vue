@@ -1,4 +1,5 @@
 <template>
+  <!-- 粗进度条 -->
   <div class="bar">
     <div class="item">
       <p class="item-title">资产数量</p>

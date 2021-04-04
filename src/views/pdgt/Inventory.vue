@@ -28,9 +28,14 @@
         <van-icon color="#3F3845" class="arrow-down" name="arrow-down" />
       </template>
       <template v-slot:chart>
-        123
+        <Tables />
       </template>
     </Card>
+    <div class="title">
+      <h2 class="title-h2">资产概述</h2>
+    </div>
+
+    <BarCharts />
 
     <van-popup
       round
@@ -53,6 +58,8 @@ import Pie from '@/components/Pie.vue'
 import Bar from '@/components/Bar.vue'
 import Bars from '@/components/Bars.vue'
 import Card from '@/components/Card.vue'
+import Tables from '@/components/Tables.vue'
+import BarCharts from '@/components/BarCharts.vue'
 
 export default defineComponent({
   name: 'inventory',
@@ -60,6 +67,8 @@ export default defineComponent({
     Bars,
     Bar,
     Pie,
+    BarCharts,
+    Tables,
     Card,
   },
   props: {
@@ -177,7 +186,7 @@ export default defineComponent({
       line-height: 26px;
       color: $pdgth2Color;
       position: relative;
-      padding-left: 8px;
+      padding-left: 12px;
 
       &::before {
         content: '';

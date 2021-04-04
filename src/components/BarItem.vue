@@ -1,4 +1,5 @@
 <template>
+  <!-- 细进度条 -->
   <div :id="chart.id"></div>
 </template>
 <script lang="ts">

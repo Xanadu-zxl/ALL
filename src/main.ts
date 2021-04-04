@@ -3,9 +3,8 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import '@/assets/css/basis.scss'
-import 'vant/lib/index.css'
 import countTo from 'vue3-count-to'
-import { Icon, Popup, Picker, Tab, Tabs } from 'vant'
+import { Icon, Popup, Picker, Tab, Tabs, Pagination } from 'vant'
 import * as echarts from 'echarts/core'
 import {
     BarChart,
@@ -26,4 +25,4 @@ echarts.use(
     [TitleComponent, TooltipComponent, LegendComponent, DataZoomComponent, GridComponent, BarChart, PieChart, LineChart, CanvasRenderer]
 )
 
-createApp(App).use(countTo).use(store).use(router).use(Icon).use(Tab).use(Tabs).use(Popup).use(Picker).mount('#app')
+createApp(App).use(countTo).use(Pagination).use(store).use(router).use(Icon).use(Tab).use(Tabs).use(Popup).use(Picker).mount('#app')

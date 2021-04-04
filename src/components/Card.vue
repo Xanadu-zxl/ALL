@@ -22,7 +22,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .Card {
   padding: 0 16px;
   background: #ffffff;
