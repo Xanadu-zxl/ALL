@@ -52,11 +52,6 @@ export default {
       color: #313c56;
       margin-left: 8px;
     }
-    .subtitle {
-      font-size: 14px;
-      line-height: 18px;
-      color: #95a4b3;
-    }
   }
 }
 </style>

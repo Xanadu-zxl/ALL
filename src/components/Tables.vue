@@ -1,47 +1,63 @@
 <template>
-  <div class="tables">
-    <header class="tables-header">
-      <span class="tables-header_street">街道</span>
-      <span class="tables-header_name">名称</span>
-      <span class="tables-header_type">类型</span>
-    </header>
-    <main class="tables-main">
-      <p
-        class="tables-main_item"
-        v-for="item in tableList"
-        :key="item.id"
-        @click="showDetails(item)"
-      >
-        <span class="tables-header_street">{{ item.street }}</span>
-        <span class="tables-header_name">{{ item.name }}</span>
-        <span class="tables-header_type">{{ item.type }}</span>
-      </p>
-    </main>
-    <footer class="tables-footer">
-      <van-pagination v-model="currentPage" mode="simple" :page-count="100">
-        <template #prev-text>
-          <van-icon name="arrow-left" />
-        </template>
-        <template #next-text>
-          <van-icon name="arrow" />
-        </template>
-      </van-pagination>
-    </footer>
-
-    <van-popup round v-model:show="show">
-      <div class="tables-popup">
-        <h2 class="tables-popup_title">数据详情</h2>
-        <p class="tables-popup_item">
-          <span>街道</span>
-          <span>古城街道</span>
+  <div>
+    <div class="tables">
+      <header class="tables-header">
+        <span class="tables-header_street">街道</span>
+        <span class="tables-header_name">名称</span>
+        <span class="tables-header_type">类型</span>
+      </header>
+      <main class="tables-main">
+        <p
+          class="tables-main_item"
+          v-for="item in tableList"
+          :key="item.id"
+          @click="showDetails(item)"
+        >
+          <span class="tables-header_street">{{ item.street }}</span>
+          <span class="tables-header_name">{{ item.name }}</span>
+          <span class="tables-header_type">{{ item.type }}</span>
         </p>
-      </div>
-    </van-popup>
+      </main>
+      <footer class="tables-footer">
+        <van-pagination
+          v-model="currentPage"
+          mode="simple"
+          :page-count="100"
+        >
+          <template #prev-text>
+            <van-icon name="arrow-left" />
+          </template>
+          <template #next-text>
+            <van-icon name="arrow" />
+          </template>
+        </van-pagination>
+      </footer>
+
+      <van-popup round :show="show" @click-overlay="onCancel">
+        <div class="tables-popup">
+          <h2 class="tables-popup_title">数据详情</h2>
+          <div class="tables-popup_detail">
+            <p
+              class="tables-popup_item"
+              v-for="item in tableTitle"
+              :key="item.id"
+            >
+              <span>{{ item.title }}</span>
+              <span>{{ detail[item.name] }}</span>
+            </p>
+          </div>
+
+          <div class="tables-popup_footer" @click="onCancel">
+            关闭
+          </div>
+        </div>
+      </van-popup>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, reactive, toRefs } from 'vue'
 
 export default defineComponent({
   name: 'tables',
@@ -49,55 +65,118 @@ export default defineComponent({
     const currentPage = ref(1)
     const tableList = [
       {
+        lessee: '张三1',
+        rent: '7000/月',
+        contact: '120',
+        street: '古城街道',
+        name: '工厂',
+        type: '标砖吃饭',
+      },
+      {
+        lessee: '张三',
+        rent: '6000/月',
+        contact: '110',
         street: '古城街道',
         name: '测测股卡还是觉得哈快点哈',
         type: '标砖吃饭',
       },
       {
+        lessee: '张三',
+        rent: '6000/月',
+        contact: '110',
         street: '古城街道',
         name: '测测股卡还是觉得哈快点哈',
         type: '标砖吃饭',
       },
       {
+        lessee: '张三',
+        rent: '6000/月',
+        contact: '110',
         street: '古城街道',
         name: '测测股卡还是觉得哈快点哈',
         type: '标砖吃饭',
       },
       {
+        lessee: '张三',
+        rent: '6000/月',
+        contact: '110',
         street: '古城街道',
         name: '测测股卡还是觉得哈快点哈',
         type: '标砖吃饭',
       },
       {
-        street: '古城街道',
-        name: '测测股卡还是觉得哈快点哈',
-        type: '标砖吃饭',
-      },
-      {
+        lessee: '张三',
+        rent: '6000/月',
+        contact: '110',
         street: '古城街道',
         name: '测测股卡还是觉得哈快点哈',
         type: '标砖吃饭',
       },
     ]
-    const show = ref(false)
+
+    const tableTitle = [
+      {
+        name: 'lessee',
+        title: '承租人',
+      },
+      {
+        name: 'rent',
+        title: '租金',
+      },
+      {
+        name: 'contact',
+        title: '联系方式',
+      },
+      {
+        name: 'street',
+        title: '街道',
+      },
+      {
+        name: 'name',
+        title: '名称',
+      },
+      {
+        name: 'type',
+        title: '类型',
+      },
+      {
+        name: 'type',
+        title: '类型',
+      },
+      {
+        name: 'type',
+        title: '合同签订',
+      },
+      {
+        name: 'type',
+        title: '合同到期',
+      },
+    ]
+
+    const data = reactive({
+      detail: {},
+      show: false,
+    })
 
     const showDetails = (item) => {
       console.log(item)
-      show.value = true
+      data.detail = item
+      data.show = true
     }
     const showPopup = () => {
-      show.value = true
+      data.show = true
     }
 
-    const onCancel = () => (show.value = false)
+    const onCancel = () => (data.show = false)
 
     return {
-      show,
       tableList,
       currentPage,
       showDetails,
       showPopup,
       onCancel,
+      tableTitle,
+      ...toRefs(data),
     }
   },
 })
@@ -196,17 +275,40 @@ export default defineComponent({
       font-weight: 500;
       line-height: 24px;
       text-align: center;
+      margin-bottom: 8px;
+    }
+
+    .tables-popup_detail {
+      overflow: scroll;
+      height: 350px;
     }
     .tables-popup_item {
       font-size: 14px;
       line-height: 18px;
+      padding: 16px;
+
       & span:first-child {
         font-weight: 500;
         color: #191f30;
+        width: 22%;
+        display: inline-block;
       }
       & span:last-child {
         color: #6b7885;
+        display: inline-block;
       }
+    }
+
+    .tables-popup_footer {
+      background: #2196f3;
+      height: 42px;
+      margin-top: 30px;
+      border-radius: 4px;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 42px;
+      text-align: center;
+      color: #ffffff;
     }
   }
 }

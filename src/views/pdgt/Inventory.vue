@@ -2,19 +2,19 @@
   <div class="inventory">
     <div class="title">
       <h2 class="title-h2">资产概述</h2>
-      <div class="title-options" @click="showPopup">
-        <span>全区域</span>
+      <div class="title-options" @click="showPopup(communitys)">
+        <span>{{ community }}</span>
         <van-icon color="#3F3845" class="arrow-down" name="arrow-down" />
       </div>
     </div>
     <Bar />
-    <Card :title="dataObj.pieData.title">
+    <Card :title="pieData.title">
       <template v-slot:subtitle> </template>
       <template v-slot:chart>
-        <Pie :data="dataObj.pieData" />
+        <Pie :data="pieData" />
       </template>
     </Card>
-    <Card :title="dataObj.barData.title">
+    <Card :title="barData.title">
       <template v-slot:subtitle>
         <span class="subtitle">已出租/资产数</span>
       </template>
@@ -22,10 +22,12 @@
         <Bars />
       </template>
     </Card>
-    <Card :title="dataObj.tableData.title">
+    <Card :title="tableData.title">
       <template v-slot:subtitle>
-        <span class="subtitle">在租·373</span>
-        <van-icon color="#3F3845" class="arrow-down" name="arrow-down" />
+        <div class="header-subtitle" @click="showPopup(status)">
+          <span class="subtitle">{{ statusTitle }}</span>
+          <van-icon color="#3F3845" class="arrow-down" name="arrow-down" />
+        </div>
       </template>
       <template v-slot:chart>
         <Tables />
@@ -39,21 +41,21 @@
 
     <van-popup
       round
-      v-model:show="show"
+      :show="show"
       position="bottom"
       :style="{ height: '50%' }"
     >
       <van-picker
         @confirm="onConfirm"
         @cancel="onCancel"
-        :columns="state.columns"
+        :columns="columns"
       />
     </van-popup>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive } from 'vue'
+import { defineComponent, reactive, toRefs } from 'vue'
 import Pie from '@/components/Pie.vue'
 import Bar from '@/components/Bar.vue'
 import Bars from '@/components/Bars.vue'
@@ -75,7 +77,7 @@ export default defineComponent({
     data: Object,
   },
   setup() {
-    const dataObj = {
+    const dataObj = reactive({
       pieData: {
         title: '房屋状态分布',
         id: 'pie1',
@@ -139,9 +141,8 @@ export default defineComponent({
       tableData: {
         title: '租赁详情',
       },
-    }
-    const state = reactive({
-      columns: [
+      community: '全部社区',
+      communitys: [
         '全区域',
         '郫筒街道',
         '唐昌街道',
@@ -150,26 +151,34 @@ export default defineComponent({
         '安靖街道',
         '红光街道',
       ],
+      statusTitle: '在租·373',
+      status: ['在租·373', '空闲·116', '合同纠纷·0'],
+      columns: [],
+      show: false,
     })
-    const community = ref('全部社区')
-    const show = ref(false)
-    const showPopup = () => {
-      show.value = true
+
+    const showPopup = (column) => {
+      dataObj.columns = column
+      dataObj.show = true
     }
     const onConfirm = (value) => {
-      community.value = value
-      show.value = false
+      if (dataObj.columns.includes('全区域')) {
+        dataObj.community = value
+      } else {
+        dataObj.statusTitle = value
+      }
+
+      dataObj.show = false
     }
-    const onCancel = () => (show.value = false)
+    const onCancel = () => {
+      dataObj.show = false
+    }
 
     return {
-      show,
       showPopup,
-      state,
       onCancel,
       onConfirm,
-      community,
-      dataObj,
+      ...toRefs(dataObj),
     }
   },
 })
@@ -216,6 +225,14 @@ export default defineComponent({
   }
   .arrow-down {
     padding: 0 6px;
+  }
+  .header-subtitle {
+    @include dcc;
+  }
+  .subtitle {
+    font-size: 14px;
+    line-height: 18px;
+    color: #95a4b3;
   }
 }
 </style>
