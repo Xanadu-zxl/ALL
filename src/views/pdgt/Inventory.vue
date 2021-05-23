@@ -7,11 +7,11 @@
         <van-icon color="#3F3845" class="arrow-down" name="arrow-down" />
       </div>
     </div>
-    <Bar />
+    <Bar :assets="assets" :loading="loading" />
     <Card :title="pieData.title">
       <template v-slot:subtitle> </template>
       <template v-slot:chart>
-        <Pie :data="pieData" />
+        <Pie :data="pieData" :loading="loading" />
       </template>
     </Card>
     <Card :title="barData.title">
@@ -36,32 +36,22 @@
     <div class="title">
       <h2 class="title-h2">资产概述</h2>
     </div>
-
     <BarCharts />
-
-    <van-popup
-      round
-      :show="show"
-      position="bottom"
-      :style="{ height: '50%' }"
-    >
-      <van-picker
-        @confirm="onConfirm"
-        @cancel="onCancel"
-        :columns="columns"
-      />
+    <van-popup round :show="show" position="bottom" :style="{ height: '50%' }">
+      <van-picker @confirm="onConfirm" @cancel="onCancel" :columns="columns" />
     </van-popup>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, toRefs } from 'vue'
+import { defineComponent, reactive, ref, toRefs, onBeforeMount } from 'vue'
 import Pie from '@/components/Pie.vue'
 import Bar from '@/components/Bar.vue'
 import Bars from '@/components/Bars.vue'
 import Card from '@/components/Card.vue'
 import Tables from '@/components/Tables.vue'
 import BarCharts from '@/components/BarCharts.vue'
+import api from '../../api/api'
 
 export default defineComponent({
   name: 'inventory',
@@ -77,6 +67,12 @@ export default defineComponent({
     data: Object,
   },
   setup() {
+    const loading = ref(false)
+    const assets = reactive({
+      number: 0,
+      actual: 0,
+      ideal: 1,
+    })
     const dataObj = reactive({
       pieData: {
         title: '房屋状态分布',
@@ -119,9 +115,9 @@ export default defineComponent({
               radius: ['25%', '40%'],
               avoidLabelOverlap: false,
               data: [
-                { value: 435, name: '在租' },
-                { value: 635, name: '空置' },
-                { value: 445, name: '合同纠纷' },
+                { value: 0, name: '在租' },
+                { value: 0, name: '空置' },
+                { value: 0, name: '合同纠纷' },
               ],
               label: {
                 align: 'right',
@@ -135,6 +131,7 @@ export default defineComponent({
           ],
         },
       },
+
       barData: {
         title: '资产类型',
       },
@@ -156,7 +153,9 @@ export default defineComponent({
       columns: [],
       show: false,
     })
-
+    onBeforeMount(() => {
+      getAssets()
+    })
     const showPopup = (column) => {
       dataObj.columns = column
       dataObj.show = true
@@ -173,11 +172,36 @@ export default defineComponent({
     const onCancel = () => {
       dataObj.show = false
     }
-
+    const setData = (res) => {
+      const arr = []
+      res.forEach((res) => {
+        arr.push({
+          name: res[0],
+          value: res[1],
+        })
+      })
+      return arr
+    }
+    // 请求数据
+    const getAssets = async () => {
+      const {
+        data: { data },
+      } = await api.getAssets()
+      loading.value = true
+      console.log('%c 🥩 data: ', 'font-size:20px;background-color: #3F7CFF;color:#fff;', data)
+      assets.number = data.property_count
+      assets.ideal = data.receivable_money[0]
+      assets.actual = data.receivable_money[1]
+      dataObj.pieData.chartData.series[0].data = setData(data.status_quo)
+      // ceshiceshice = setData(data.status_quo)
+    }
     return {
       showPopup,
       onCancel,
       onConfirm,
+      getAssets,
+      assets,
+      loading,
       ...toRefs(dataObj),
     }
   },

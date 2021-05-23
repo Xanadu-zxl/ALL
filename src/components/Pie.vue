@@ -7,12 +7,16 @@
 <script>
 import * as echarts from 'echarts/core'
 export default {
-  name: 'Pie',
+  name: 'Pies',
   props: {
     data: Object,
+    loading: Boolean,
   },
-  setup() {
-    return {}
+
+  watch: {
+    loading() {
+      this.createEcharts()
+    },
   },
   mounted() {
     this.createEcharts()

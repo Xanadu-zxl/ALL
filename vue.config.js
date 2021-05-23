@@ -1,6 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
-  .BundleAnalyzerPlugin
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const IS_PROD = ['production', 'prod'].includes(process.env.NODE_ENV)
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const path = require('path')
@@ -28,6 +27,7 @@ module.exports = {
       ])
     }
   },
+  publicPath: process.env.NODE_ENV === 'production' ? '/vis' : '/',
   css: {
     loaderOptions: {
       sass: {
@@ -35,16 +35,13 @@ module.exports = {
       },
     },
   },
-  // devServer: {
-  //   proxy: {
-  //     "/jobs": {
-  //       target: "http://jobs.softspirit.cn/jobs", // 接口的域名
-  //       changOrigin: true, // 开启代理，在本地创建一个虚拟服务端
-  //       pathRewrite: {
-  //         "^/jobs": "/"
-  //       }
-  //     }
-  //   }
-  // },
+  devServer: {
+    proxy: {
+      v1: {
+        target: 'http://vis.cdyoue.com', // 接口的域名
+        changOrigin: true, // 开启代理，在本地创建一个虚拟服务端
+      },
+    },
+  },
   productionSourceMap: false,
 }

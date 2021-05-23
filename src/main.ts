@@ -6,6 +6,7 @@ import '@/assets/css/basis.scss'
 import countTo from 'vue3-count-to'
 import { Icon, Popup, Picker, Tab, Tabs, Pagination } from 'vant'
 import * as echarts from 'echarts/core'
+
 import {
     BarChart,
     PieChart,

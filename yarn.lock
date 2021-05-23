@@ -2101,6 +2101,13 @@
   "resolved" "https://registry.npm.taobao.org/aws4/download/aws4-1.11.0.tgz"
   "version" "1.11.0"
 
+"axios@^0.21.1":
+  "integrity" "sha512-dKQiRHxGD9PPRIUNIWvZhPTPpl1rf/OxTYKsqKUDjBwYylTvV7SjSHJb9ratfyzM6wCdLCOYLzs73qpg5c4iGA=="
+  "resolved" "https://registry.npmjs.org/axios/-/axios-0.21.1.tgz"
+  "version" "0.21.1"
+  dependencies:
+    "follow-redirects" "^1.10.0"
+
 "babel-code-frame@^6.22.0":
   "integrity" "sha1-Y/1D99weO7fONZR9uP42mj9Yx0s="
   "resolved" "https://registry.npm.taobao.org/babel-code-frame/download/babel-code-frame-6.26.0.tgz"
@@ -3645,6 +3652,14 @@
     "jsbn" "~0.1.0"
     "safer-buffer" "^2.1.0"
 
+"echarts@^5.0.2":
+  "integrity" "sha512-b3nP8M9XwZM2jISuA+fP0EuJv8lcfgWrinel185Npy8bE/UhXTDIPJcqgQOCWdvk0c5CeT6Dsm1xBjmJXAGlxQ=="
+  "resolved" "https://registry.npmjs.org/echarts/-/echarts-5.1.1.tgz"
+  "version" "5.1.1"
+  dependencies:
+    "tslib" "2.0.3"
+    "zrender" "5.1.0"
+
 "ee-first@1.1.1":
   "integrity" "sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0="
   "resolved" "https://registry.npm.taobao.org/ee-first/download/ee-first-1.1.1.tgz"
@@ -4434,7 +4449,7 @@
     "inherits" "^2.0.3"
     "readable-stream" "^2.3.6"
 
-"follow-redirects@^1.0.0":
+"follow-redirects@^1.0.0", "follow-redirects@^1.10.0":
   "integrity" "sha1-5VmK1QF0wbxOhyMB6CrCzZf5Amc="
   "resolved" "https://registry.npm.taobao.org/follow-redirects/download/follow-redirects-1.13.3.tgz"
   "version" "1.13.3"
@@ -6318,10 +6333,10 @@
   "resolved" "https://registry.npm.taobao.org/nan/download/nan-2.14.2.tgz"
   "version" "2.14.2"
 
-"nanoid@^3.1.20":
-  "integrity" "sha1-s1+Pt9FRmQqK69WqUBXAPPcm+EQ="
-  "resolved" "https://registry.npm.taobao.org/nanoid/download/nanoid-3.1.22.tgz?cache=0&sync_timestamp=1615820517433&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fnanoid%2Fdownload%2Fnanoid-3.1.22.tgz"
-  "version" "3.1.22"
+"nanoid@^3.1.23":
+  "integrity" "sha512-FiB0kzdP0FFVGDKlRLEQ1BgDzU87dy5NnzjeW9YZNt+/c3+q82EQDUwniSAUxp/F0gFNI1ZhKU1FqYsMuqZVnw=="
+  "resolved" "https://registry.npmjs.org/nanoid/-/nanoid-3.1.23.tgz"
+  "version" "3.1.23"
 
 "nanomatch@^1.2.9":
   "integrity" "sha1-uHqKpPwN6P5r6IiVs4mD/yZb0Rk="
@@ -6493,7 +6508,7 @@
   "resolved" "https://registry.npm.taobao.org/oauth-sign/download/oauth-sign-0.9.0.tgz"
   "version" "0.9.0"
 
-"object-assign@^4.0.1", "object-assign@^4.1.0", "object-assign@^4.1.1", "object-assign@>=4.0.1":
+"object-assign@^4.0.1", "object-assign@^4.1.0", "object-assign@^4.1.1":
   "integrity" "sha1-IQmtx5ZYh8/AXLvUQsrIv7s2CGM="
   "resolved" "https://registry.npm.taobao.org/object-assign/download/object-assign-4.1.1.tgz"
   "version" "4.1.1"
@@ -7310,13 +7325,10 @@
     "postcss" "^7.0.0"
     "postcss-value-parser" "^3.0.0"
 
-"postcss-px-to-viewport@^1.1.1":
-  "integrity" "sha512-2x9oGnBms+e0cYtBJOZdlwrFg/mLR4P1g2IFu7jYKvnqnH/HLhoKyareW2Q/x4sg0BgklHlP1qeWo2oCyPm8FQ=="
-  "resolved" "https://registry.npmjs.org/postcss-px-to-viewport/-/postcss-px-to-viewport-1.1.1.tgz"
-  "version" "1.1.1"
-  dependencies:
-    "object-assign" ">=4.0.1"
-    "postcss" ">=5.0.2"
+"postcss-pxtorem@^6.0.0":
+  "integrity" "sha512-ZRXrD7MLLjLk2RNGV6UA4f5Y7gy+a/j1EqjAfp9NdcNYVjUMvg5HTYduTjSkKBkRkfqbg/iKrjMO70V4g1LZeg=="
+  "resolved" "https://registry.npmjs.org/postcss-pxtorem/-/postcss-pxtorem-6.0.0.tgz"
+  "version" "6.0.0"
 
 "postcss-reduce-initial@^4.0.3":
   "integrity" "sha1-f9QuvqXpyBRgljniwuhK4nC6SN8="
@@ -7391,9 +7403,63 @@
   "resolved" "https://registry.npm.taobao.org/postcss-value-parser/download/postcss-value-parser-4.1.0.tgz"
   "version" "4.1.0"
 
-"postcss@^7.0.0", "postcss@^7.0.1", "postcss@^7.0.14", "postcss@^7.0.27", "postcss@^7.0.32", "postcss@^7.0.5", "postcss@^7.0.6", "postcss@>=5.0.2":
-  "integrity" "sha1-0r4AuZj38hHYonaXQHny6SuXDiQ="
-  "resolved" "https://registry.npm.taobao.org/postcss/download/postcss-7.0.35.tgz?cache=0&sync_timestamp=1615328440121&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fpostcss%2Fdownload%2Fpostcss-7.0.35.tgz"
+"postcss@^7.0.0":
+  "integrity" "sha512-3QT8bBJeX/S5zKTTjTCIjRF3If4avAT6kqxcASlTWEtAFCb9NH0OUxNDfgZSWdP5fJnBYCMEWkIFfWeugjzYMg=="
+  "resolved" "https://registry.npmjs.org/postcss/-/postcss-7.0.35.tgz"
+  "version" "7.0.35"
+  dependencies:
+    "chalk" "^2.4.2"
+    "source-map" "^0.6.1"
+    "supports-color" "^6.1.0"
+
+"postcss@^7.0.1":
+  "integrity" "sha512-3QT8bBJeX/S5zKTTjTCIjRF3If4avAT6kqxcASlTWEtAFCb9NH0OUxNDfgZSWdP5fJnBYCMEWkIFfWeugjzYMg=="
+  "resolved" "https://registry.npmjs.org/postcss/-/postcss-7.0.35.tgz"
+  "version" "7.0.35"
+  dependencies:
+    "chalk" "^2.4.2"
+    "source-map" "^0.6.1"
+    "supports-color" "^6.1.0"
+
+"postcss@^7.0.14":
+  "integrity" "sha512-3QT8bBJeX/S5zKTTjTCIjRF3If4avAT6kqxcASlTWEtAFCb9NH0OUxNDfgZSWdP5fJnBYCMEWkIFfWeugjzYMg=="
+  "resolved" "https://registry.npmjs.org/postcss/-/postcss-7.0.35.tgz"
+  "version" "7.0.35"
+  dependencies:
+    "chalk" "^2.4.2"
+    "source-map" "^0.6.1"
+    "supports-color" "^6.1.0"
+
+"postcss@^7.0.27":
+  "integrity" "sha512-3QT8bBJeX/S5zKTTjTCIjRF3If4avAT6kqxcASlTWEtAFCb9NH0OUxNDfgZSWdP5fJnBYCMEWkIFfWeugjzYMg=="
+  "resolved" "https://registry.npmjs.org/postcss/-/postcss-7.0.35.tgz"
+  "version" "7.0.35"
+  dependencies:
+    "chalk" "^2.4.2"
+    "source-map" "^0.6.1"
+    "supports-color" "^6.1.0"
+
+"postcss@^7.0.32":
+  "integrity" "sha512-3QT8bBJeX/S5zKTTjTCIjRF3If4avAT6kqxcASlTWEtAFCb9NH0OUxNDfgZSWdP5fJnBYCMEWkIFfWeugjzYMg=="
+  "resolved" "https://registry.npmjs.org/postcss/-/postcss-7.0.35.tgz"
+  "version" "7.0.35"
+  dependencies:
+    "chalk" "^2.4.2"
+    "source-map" "^0.6.1"
+    "supports-color" "^6.1.0"
+
+"postcss@^7.0.5":
+  "integrity" "sha512-3QT8bBJeX/S5zKTTjTCIjRF3If4avAT6kqxcASlTWEtAFCb9NH0OUxNDfgZSWdP5fJnBYCMEWkIFfWeugjzYMg=="
+  "resolved" "https://registry.npmjs.org/postcss/-/postcss-7.0.35.tgz"
+  "version" "7.0.35"
+  dependencies:
+    "chalk" "^2.4.2"
+    "source-map" "^0.6.1"
+    "supports-color" "^6.1.0"
+
+"postcss@^7.0.6":
+  "integrity" "sha512-3QT8bBJeX/S5zKTTjTCIjRF3If4avAT6kqxcASlTWEtAFCb9NH0OUxNDfgZSWdP5fJnBYCMEWkIFfWeugjzYMg=="
+  "resolved" "https://registry.npmjs.org/postcss/-/postcss-7.0.35.tgz"
   "version" "7.0.35"
   dependencies:
     "chalk" "^2.4.2"
@@ -7401,12 +7467,12 @@
     "supports-color" "^6.1.0"
 
 "postcss@^8.0.0", "postcss@^8.1.0", "postcss@^8.1.10":
-  "integrity" "sha1-C5D5OC79pCTE8PaaLq1vaDDQjs4="
-  "resolved" "https://registry.npm.taobao.org/postcss/download/postcss-8.2.8.tgz?cache=0&sync_timestamp=1615328440121&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fpostcss%2Fdownload%2Fpostcss-8.2.8.tgz"
-  "version" "8.2.8"
+  "integrity" "sha512-2zO3b26eJD/8rb106Qu2o7Qgg52ND5HPjcyQiK2B98O388h43A448LCslC0dI2P97wCAQRJsFvwTRcXxTKds+Q=="
+  "resolved" "https://registry.npmjs.org/postcss/-/postcss-8.2.15.tgz"
+  "version" "8.2.15"
   dependencies:
     "colorette" "^1.2.2"
-    "nanoid" "^3.1.20"
+    "nanoid" "^3.1.23"
     "source-map" "^0.6.1"
 
 "prelude-ls@~1.1.2":
@@ -8915,6 +8981,11 @@
   "resolved" "https://registry.npm.taobao.org/tslib/download/tslib-1.14.1.tgz?cache=0&sync_timestamp=1609887769758&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Ftslib%2Fdownload%2Ftslib-1.14.1.tgz"
   "version" "1.14.1"
 
+"tslib@2.0.3":
+  "integrity" "sha512-uZtkfKblCEQtZKBF6EBXVZeQNl82yqtDQdv+eck8u7tdPxjLu2/lp5/uPW+um2tpuxINHWy3GhiccY7QgEaVHQ=="
+  "resolved" "https://registry.npmjs.org/tslib/-/tslib-2.0.3.tgz"
+  "version" "2.0.3"
+
 "tslint@^5.20.1":
   "integrity" "sha1-5AHortoBUrxE3QfmFANPP4DGe30="
   "resolved" "https://registry.npm.taobao.org/tslint/download/tslint-5.20.1.tgz"
@@ -9320,7 +9391,7 @@
   "resolved" "https://registry.npm.taobao.org/vue-template-es2015-compiler/download/vue-template-es2015-compiler-1.9.1.tgz"
   "version" "1.9.1"
 
-"vue@^2 || ^3.0.0-0", "vue@^3.0.0", "vue@^3.0.2", "vue@3.0.7":
+"vue@^2 || ^3.0.0-0", "vue@^3.0.0", "vue@^3.0.2", "vue@>= 2 < 4", "vue@3.0.7":
   "integrity" "sha1-i8/1H4vlcPnkzozF9S4qsP48dKE="
   "resolved" "https://registry.npm.taobao.org/vue/download/vue-3.0.7.tgz?cache=0&sync_timestamp=1614614904397&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fvue%2Fdownload%2Fvue-3.0.7.tgz"
   "version" "3.0.7"
@@ -9328,6 +9399,11 @@
     "@vue/compiler-dom" "3.0.7"
     "@vue/runtime-dom" "3.0.7"
     "@vue/shared" "3.0.7"
+
+"vue3-count-to@^1.0.8":
+  "integrity" "sha512-UqudZTmghFJazbm/N8ihdXSGaNfqAABAt6CbUbrzDMKZumPSAVLlEr/bxbWNoO2F7AmB+ANl+xEArN6sRFgp9A=="
+  "resolved" "https://registry.npmjs.org/vue3-count-to/-/vue3-count-to-1.0.9.tgz"
+  "version" "1.0.9"
 
 "vuex@^4.0.0-0":
   "integrity" "sha1-rId6p2qcRTaMl5Rx5GG1INOObPU="
@@ -9690,3 +9766,10 @@
     "is-ci" "^1.0.10"
     "normalize-path" "^1.0.0"
     "strip-indent" "^2.0.0"
+
+"zrender@5.1.0":
+  "integrity" "sha512-c+8VRx52ycbmqwHeHLlo/BAfIHBl/JZNLM6cfDQFgzIH05yb+f5J9F/fbRsP+zGc8dW9XHuhdt8/iqukgMZSeg=="
+  "resolved" "https://registry.npmjs.org/zrender/-/zrender-5.1.0.tgz"
+  "version" "5.1.0"
+  dependencies:
+    "tslib" "2.0.3"

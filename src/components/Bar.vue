@@ -7,7 +7,7 @@
         ><count-to
           class="item-count"
           :startVal="0"
-          :endVal="343"
+          :endVal="assets.number"
           :duration="2000"
         ></count-to
         >（套）</span
@@ -17,15 +17,20 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, onMounted } from 'vue'
+import { defineComponent, onMounted, watch } from 'vue'
 import * as echarts from 'echarts/core'
 import { CountTo } from 'vue3-count-to'
 export default defineComponent({
   name: 'bar',
+
+  props: {
+    assets: Object,
+    loading: Boolean,
+  },
   components: {
     CountTo,
   },
-  setup() {
+  setup(props) {
     const createEcharts = () => {
       const myChart = echarts.init(document.getElementById('bar'))
       myChart.setOption({
@@ -48,7 +53,7 @@ export default defineComponent({
             name: '已收',
             type: 'bar',
             stack: '总量',
-            data: [138798],
+            data: [props.assets.actual],
             barWidth: 20,
             itemStyle: {
               color: '#35B0FF',
@@ -79,7 +84,7 @@ export default defineComponent({
             name: '应收',
             type: 'bar',
             stack: '总量',
-            data: [286300],
+            data: [props.assets.ideal],
             itemStyle: {
               color: '#F0EFF4',
               borderRadius: [0, 4, 4, 0],
@@ -108,10 +113,16 @@ export default defineComponent({
         ],
       })
     }
+
     onMounted(() => {
       createEcharts()
     })
     return { createEcharts }
+  },
+  watch: {
+    loading() {
+      this.createEcharts()
+    },
   },
 })
 </script>
