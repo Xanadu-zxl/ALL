@@ -111,7 +111,7 @@ export default {
             data: this.histogram[3],
           },
           {
-            name: '办公室',
+            name: '办公楼',
             type: 'bar',
             stack: '年龄',
             barWidth: '50%',

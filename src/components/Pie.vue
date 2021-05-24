@@ -10,12 +10,14 @@ export default {
   name: 'Pies',
   props: {
     data: Object,
-    loading: Boolean,
   },
 
   watch: {
-    loading() {
-      this.createEcharts()
+    data: {
+      handler() {
+        this.createEcharts()
+      },
+      deep: true,
     },
   },
   mounted() {

@@ -7,11 +7,11 @@
         <van-icon color="#3F3845" class="arrow-down" name="arrow-down" />
       </div>
     </div>
-    <Bar :assets="assets" :loading="loading" />
+    <Bar :assets="assets" />
     <Card :title="pieData.title">
       <template v-slot:subtitle> </template>
       <template v-slot:chart>
-        <Pie :data="pieData" :loading="loading" />
+        <Pie :data="pieData" />
       </template>
     </Card>
     <Card :title="barData.title">
@@ -44,7 +44,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref, toRefs, onBeforeMount } from 'vue'
+import { defineComponent, reactive, toRefs, onBeforeMount } from 'vue'
 import Pie from '@/components/Pie.vue'
 import Bar from '@/components/Bar.vue'
 import Bars from '@/components/Bars.vue'
@@ -68,7 +68,6 @@ export default defineComponent({
   },
 
   setup() {
-    const loading = ref(false)
     const assets = reactive({
       number: 0,
       actual: 0,
@@ -186,24 +185,7 @@ export default defineComponent({
       })
       return arr
     }
-    const setTypeData = (types) => {
-      const arrs = types
-      arrs[0].forEach((arr) => {
-        if (arrs[1] > 0) {
-          arrs[1].forEach((res) => {
-            if (arr[0] === res[0]) {
-              arr.push(res[1])
-            } else {
-              arr.push(0)
-            }
-          })
-        } else {
-          arr.push(0)
-        }
-      })
 
-      return arrs
-    }
     const setHistogram = (arrs) => {
       const histogram = [[], [], [], [], [], [], [], []]
       arrs.forEach((res, index) => {
@@ -244,13 +226,12 @@ export default defineComponent({
       const {
         data: { data },
       } = await api.getAssets(params, status)
-      loading.value = true
       console.log('%c 🥩 data: ', 'font-size:20px;background-color: #3F7CFF;color:#fff;', data)
       assets.number = data.property_count
       assets.ideal = data.receivable_money[0]
       assets.actual = data.receivable_money[1]
       dataObj.pieData.chartData.series[0].data = setData(data.status_quo)
-      dataObj.type = setTypeData(data.property_type)
+      dataObj.type = data.property_type
       dataObj.communitys.splice(1)
       dataObj.communitys = dataObj.communitys.concat(data.row_type)
       dataObj.histogram = setHistogram(data.property_distribution)
@@ -261,7 +242,6 @@ export default defineComponent({
       onConfirm,
       getAssets,
       assets,
-      loading,
       ...toRefs(dataObj),
     }
   },

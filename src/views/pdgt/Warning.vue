@@ -7,7 +7,7 @@
         <van-icon color="#3F3845" class="arrow-down" name="arrow-down" />
       </div>
     </div>
-    <Bar />
+    <Bar :assets="assetsData" />
     <Card :title="pieData.title">
       <template v-slot:subtitle> </template>
       <template v-slot:chart>
@@ -19,7 +19,7 @@
         <span class="subtitle">已收租/待收租</span>
       </template>
       <template v-slot:chart>
-        <Bars />
+        <Bars :type="type"/>
       </template>
     </Card>
     <Card :title="tableData.title">
@@ -40,28 +40,20 @@
       </template>
     </Card>
 
-    <van-popup
-      round
-      :show="show"
-      position="bottom"
-      :style="{ height: '50%' }"
-    >
-      <van-picker
-        @confirm="onConfirm"
-        @cancel="onCancel"
-        :columns="columns"
-      />
+    <van-popup round :show="show" position="bottom" :style="{ height: '50%' }">
+      <van-picker @confirm="onConfirm" @cancel="onCancel" :columns="columns" />
     </van-popup>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, toRefs } from 'vue'
+import { defineComponent, reactive, onBeforeMount, toRefs } from 'vue'
 import Pie from '@/components/Pie.vue'
 import Bar from '@/components/Bar.vue'
 import Bars from '@/components/Bars.vue'
 import Card from '@/components/Card.vue'
 import Tables from '@/components/Tables.vue'
+import api from '../../api/api'
 
 export default defineComponent({
   name: 'inventory',
@@ -76,7 +68,13 @@ export default defineComponent({
     data: Object,
   },
   setup() {
+    const assetsData = reactive({
+      number: 0,
+      actual: 0,
+      ideal: 1,
+    })
     const dataObj = reactive({
+      type: [],
       pieData: {
         title: '收租情况',
         id: 'pie1',
@@ -139,18 +137,10 @@ export default defineComponent({
       tableData: {
         title: '预警清单',
       },
-      community: '全部社区',
-      communitys: [
-        '全区域',
-        '郫筒街道',
-        '唐昌街道',
-        '犀浦街道',
-        '团结街道',
-        '安靖街道',
-        '红光街道',
-      ],
-      statusTitle: '在租·373',
-      status: ['在租·373', '空闲·116', '合同纠纷·0'],
+      community: '全部街道',
+      communitys: ['全部街道'],
+      statusTitle: '在租·1',
+      status: ['在租·1', '空闲·1', '合同纠纷·0'],
       columns: [],
       show: false,
       assets: ['assets', 'navs-active'],
@@ -178,7 +168,7 @@ export default defineComponent({
       dataObj.show = true
     }
     const onConfirm = (value) => {
-      if (dataObj.columns.includes('全区域')) {
+      if (dataObj.columns.includes('全部街道')) {
         dataObj.community = value
       } else {
         dataObj.statusTitle = value
@@ -189,14 +179,54 @@ export default defineComponent({
     const onCancel = () => {
       dataObj.show = false
     }
+    onBeforeMount(() => {
+      getWarning('', '')
+    })
+    const setData = (res) => {
+      const arr = []
+      res.forEach((res) => {
+        arr.push({
+          name: res[0],
+          value: res[1],
+        })
+      })
+      return arr
+    }
+    // 请求数据
+    const getWarning = async (params, status) => {
+      const {
+        data: { data },
+      } = await api.getWarning(params, status)
+      console.log('%c 🥩 data: ', 'font-size:20px;background-color: #3F7CFF;color:#fff;', data)
+      assetsData.number = data.property_count
+      assetsData.ideal = data.receivable_money[0]
+      assetsData.actual = data.receivable_money[1]
+      dataObj.pieData.chartData.series[0].data = setData(data.status_quo)
+      dataObj.type = data.property_type
+      dataObj.communitys.splice(1)
+      dataObj.communitys = dataObj.communitys.concat(data.row_type)
+    }
 
     return {
+      assetsData,
       showPopup,
       onCancel,
       onConfirm,
+      getWarning,
       switchNav,
       ...toRefs(dataObj),
     }
+  },
+  watch: {
+    community: {
+      handler(value) {
+        if (value === '全部街道') {
+          this.getWarning('', '')
+        } else {
+          this.getWarning(value, '')
+        }
+      },
+    },
   },
 })
 </script>

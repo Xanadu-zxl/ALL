@@ -4,12 +4,7 @@
     <div class="item">
       <p class="item-title">资产数量</p>
       <span
-        ><count-to
-          class="item-count"
-          :startVal="0"
-          :endVal="assets.number"
-          :duration="2000"
-        ></count-to
+        ><count-to class="item-count" :startVal="0" :endVal="assets.number" :duration="2000"></count-to
         >（套）</span
       >
     </div>
@@ -24,7 +19,6 @@ export default defineComponent({
   name: 'bar',
   props: {
     assets: Object,
-    loading: Boolean,
   },
   components: {
     CountTo,
@@ -112,15 +106,17 @@ export default defineComponent({
         ],
       })
     }
-
     onMounted(() => {
       createEcharts()
     })
     return { createEcharts }
   },
   watch: {
-    loading() {
-      this.createEcharts()
+    assets: {
+      handler() {
+        this.createEcharts()
+      },
+      deep: true,
     },
   },
 })
