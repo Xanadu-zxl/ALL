@@ -9,9 +9,14 @@ import { onMounted } from 'vue'
 export default {
   name: 'Quarter',
   props: {
-    calendar: Object,
+    histogram: Array,
   },
-
+  watch: {
+    histogram() {
+      console.log(this.histogram)
+      this.createEcharts()
+    },
+  },
   setup() {
     const showQuarter = false
     return { showQuarter, onMounted }
@@ -40,7 +45,7 @@ export default {
             top: '5%',
             x: 'center',
             itemWidth: 14,
-            data: ['标准厂房', '零星商铺', '农贸市场', '办公室'],
+            data: ['标准厂房', '零星商铺', '农贸市场', '办公楼'],
           },
           {
             top: '12%',
@@ -51,14 +56,7 @@ export default {
         ],
         xAxis: {
           type: 'category',
-          data: [
-            '和平社区',
-            '三瓦窑社区',
-            '永安社区',
-            '益州社区',
-            '交子公园社区',
-            '月牙湖社区',
-          ],
+          data: this.histogram[0],
           axisLabel: {
             rotate: 45,
           },
@@ -89,64 +87,56 @@ export default {
             },
           },
         ],
-        color: [
-          '#35B0FF',
-          '#857BFF',
-          '#FF7474',
-          '#ABE084',
-          '#38B09C',
-          '#FFC552',
-          '#8A99CF',
-        ],
+        color: ['#35B0FF', '#857BFF', '#FF7474', '#ABE084', '#38B09C', '#FFC552', '#8A99CF'],
         series: [
           {
             name: '标准厂房',
             type: 'bar',
             stack: '年龄',
             barWidth: '50%',
-            data: [3210, 3132, 1301, 3314, 1910, 3310],
+            data: this.histogram[1],
           },
           {
             name: '零星商铺',
             type: 'bar',
             stack: '年龄',
             barWidth: '50%',
-            data: [3210, 3132, 1301, 3314, 1910, 3310],
+            data: this.histogram[2],
           },
           {
             name: '农贸市场',
             type: 'bar',
             stack: '年龄',
             barWidth: '50%',
-            data: [3210, 3132, 1301, 3314, 1910, 3310],
+            data: this.histogram[3],
           },
           {
             name: '办公室',
             type: 'bar',
             stack: '年龄',
             barWidth: '50%',
-            data: [3210, 3132, 1301, 3314, 1910, 3310],
+            data: this.histogram[4],
           },
           {
             name: '学校',
             type: 'bar',
             stack: '年龄',
             barWidth: '50%',
-            data: [3210, 3132, 1301, 3314, 1910, 3310],
+            data: this.histogram[5],
           },
           {
             name: '仓库',
             type: 'bar',
             stack: '年龄',
             barWidth: '50%',
-            data: [1120, 1132, 101, 1314, 910, 230],
+            data: this.histogram[6],
           },
           {
             name: '其他',
             type: 'bar',
             stack: '年龄',
             barWidth: '50%',
-            data: [2210, 1821, 191, 234, 2190, 330],
+            data: this.histogram[7],
           },
         ],
       })

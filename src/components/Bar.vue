@@ -17,12 +17,11 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, onMounted, watch } from 'vue'
+import { defineComponent, onMounted } from 'vue'
 import * as echarts from 'echarts/core'
 import { CountTo } from 'vue3-count-to'
 export default defineComponent({
   name: 'bar',
-
   props: {
     assets: Object,
     loading: Boolean,

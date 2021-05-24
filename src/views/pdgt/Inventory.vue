@@ -19,7 +19,7 @@
         <span class="subtitle">已出租/资产数</span>
       </template>
       <template v-slot:chart>
-        <Bars />
+        <Bars :type="type" />
       </template>
     </Card>
     <Card :title="tableData.title">
@@ -36,7 +36,7 @@
     <div class="title">
       <h2 class="title-h2">资产概述</h2>
     </div>
-    <BarCharts />
+    <BarCharts :histogram="histogram" />
     <van-popup round :show="show" position="bottom" :style="{ height: '50%' }">
       <van-picker @confirm="onConfirm" @cancel="onCancel" :columns="columns" />
     </van-popup>
@@ -66,6 +66,7 @@ export default defineComponent({
   props: {
     data: Object,
   },
+
   setup() {
     const loading = ref(false)
     const assets = reactive({
@@ -74,6 +75,17 @@ export default defineComponent({
       ideal: 1,
     })
     const dataObj = reactive({
+      type: [],
+      histogram: [
+        ['全部街道'],
+        [0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0],
+      ],
       pieData: {
         title: '房屋状态分布',
         id: 'pie1',
@@ -138,30 +150,22 @@ export default defineComponent({
       tableData: {
         title: '租赁详情',
       },
-      community: '全部社区',
-      communitys: [
-        '全区域',
-        '郫筒街道',
-        '唐昌街道',
-        '犀浦街道',
-        '团结街道',
-        '安靖街道',
-        '红光街道',
-      ],
-      statusTitle: '在租·373',
-      status: ['在租·373', '空闲·116', '合同纠纷·0'],
+      community: '全部街道',
+      communitys: ['全部街道'],
+      statusTitle: '在租·1',
+      status: ['在租·1', '空闲·1', '合同纠纷·1'],
       columns: [],
       show: false,
     })
     onBeforeMount(() => {
-      getAssets()
+      getAssets('', '')
     })
     const showPopup = (column) => {
       dataObj.columns = column
       dataObj.show = true
     }
     const onConfirm = (value) => {
-      if (dataObj.columns.includes('全区域')) {
+      if (dataObj.columns.includes('全部街道')) {
         dataObj.community = value
       } else {
         dataObj.statusTitle = value
@@ -182,18 +186,74 @@ export default defineComponent({
       })
       return arr
     }
+    const setTypeData = (types) => {
+      const arrs = types
+      arrs[0].forEach((arr) => {
+        if (arrs[1] > 0) {
+          arrs[1].forEach((res) => {
+            if (arr[0] === res[0]) {
+              arr.push(res[1])
+            } else {
+              arr.push(0)
+            }
+          })
+        } else {
+          arr.push(0)
+        }
+      })
+
+      return arrs
+    }
+    const setHistogram = (arrs) => {
+      const histogram = [[], [], [], [], [], [], [], []]
+      arrs.forEach((res, index) => {
+        histogram[0].push(res.name)
+        for (let index = 1; index < histogram.length; index++) {
+          histogram[index].push(0)
+        }
+        res.value.forEach((res) => {
+          switch (res.name) {
+            case '标准厂房':
+              histogram[1].splice(index, 1, res.count)
+              break
+            case '零星商铺':
+              histogram[2].splice(index, 1, res.count)
+              break
+            case '农贸市场':
+              histogram[3].splice(index, 1, res.count)
+              break
+            case '办公楼':
+              histogram[4].splice(index, 1, res.count)
+              break
+            case '学校':
+              histogram[5].splice(index, 1, res.count)
+              break
+            case '仓库':
+              histogram[6].splice(index, 1, res.count)
+              break
+            default:
+              histogram[7].splice(index, 1, res.count)
+              break
+          }
+        })
+      })
+      return histogram
+    }
     // 请求数据
-    const getAssets = async () => {
+    const getAssets = async (params, status) => {
       const {
         data: { data },
-      } = await api.getAssets()
+      } = await api.getAssets(params, status)
       loading.value = true
       console.log('%c 🥩 data: ', 'font-size:20px;background-color: #3F7CFF;color:#fff;', data)
       assets.number = data.property_count
       assets.ideal = data.receivable_money[0]
       assets.actual = data.receivable_money[1]
       dataObj.pieData.chartData.series[0].data = setData(data.status_quo)
-      // ceshiceshice = setData(data.status_quo)
+      dataObj.type = setTypeData(data.property_type)
+      dataObj.communitys.splice(1)
+      dataObj.communitys = dataObj.communitys.concat(data.row_type)
+      dataObj.histogram = setHistogram(data.property_distribution)
     }
     return {
       showPopup,
@@ -204,6 +264,17 @@ export default defineComponent({
       loading,
       ...toRefs(dataObj),
     }
+  },
+  watch: {
+    community: {
+      handler(value) {
+        if (value === '全部街道') {
+          this.getAssets('', '')
+        } else {
+          this.getAssets(value, '')
+        }
+      },
+    },
   },
 })
 </script>

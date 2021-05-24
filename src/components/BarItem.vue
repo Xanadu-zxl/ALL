@@ -10,6 +10,7 @@ export default defineComponent({
   props: {
     chart: Object,
   },
+
   setup(props) {
     const createEcharts = () => {
       const myChart = echarts.init(document.getElementById(props.chart.id))
@@ -65,7 +66,7 @@ export default defineComponent({
             },
             label: {
               show: true,
-              formatter: `{value| ${props.chart.molecular}/${props.chart.denominator}}`,
+              formatter: `{value| ${props.chart.molecular}/${props.chart.denominator - 1}}`,
               align: 'right',
               position: ['100%', -24],
               rich: {
@@ -84,6 +85,15 @@ export default defineComponent({
     onMounted(() => {
       createEcharts()
     })
+    return { createEcharts }
+  },
+  watch: {
+    chart: {
+      handler() {
+        this.createEcharts()
+      },
+      deep: true,
+    },
   },
 })
 </script>
