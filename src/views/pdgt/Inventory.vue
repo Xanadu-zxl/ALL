@@ -228,7 +228,7 @@ export default defineComponent({
       } = await api.getAssets(params, status)
       console.log('%c 🥩 data: ', 'font-size:20px;background-color: #3F7CFF;color:#fff;', data)
       assets.number = data.property_count
-      assets.ideal = data.receivable_money[0]
+      assets.ideal = data.receivable_money[0] + 1
       assets.actual = data.receivable_money[1]
       dataObj.pieData.chartData.series[0].data = setData(data.status_quo)
       dataObj.type = data.property_type

@@ -4,7 +4,12 @@
     <div class="item">
       <p class="item-title">资产数量</p>
       <span
-        ><count-to class="item-count" :startVal="0" :endVal="assets.number" :duration="2000"></count-to
+        ><count-to
+          class="item-count"
+          :startVal="0"
+          :endVal="assets.number"
+          :duration="2000"
+        ></count-to
         >（套）</span
       >
     </div>
@@ -84,7 +89,7 @@ export default defineComponent({
             },
             label: {
               show: true,
-              formatter: '{value| {c} }\n{name| {a} }',
+              formatter: `{value| ${props.assets.ideal - 1} }\n{name| {a} }`,
               align: 'right',
               position: ['100%', -80],
               rich: {

@@ -19,7 +19,7 @@
         <span class="subtitle">已收租/待收租</span>
       </template>
       <template v-slot:chart>
-        <Bars :type="type"/>
+        <Bars :type="type" />
       </template>
     </Card>
     <Card :title="tableData.title">
@@ -199,7 +199,7 @@ export default defineComponent({
       } = await api.getWarning(params, status)
       console.log('%c 🥩 data: ', 'font-size:20px;background-color: #3F7CFF;color:#fff;', data)
       assetsData.number = data.property_count
-      assetsData.ideal = data.receivable_money[0]
+      assetsData.ideal = data.receivable_money[0] + 1
       assetsData.actual = data.receivable_money[1]
       dataObj.pieData.chartData.series[0].data = setData(data.status_quo)
       dataObj.type = data.property_type
