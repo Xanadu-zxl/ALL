@@ -8,7 +8,7 @@ const resolve = (dir) => path.join(__dirname, dir)
 module.exports = {
   chainWebpack: (config) => {
     config.plugin('html').tap((args) => {
-      args[0].title = '民政服务办公室'
+      args[0].title = '郫都国投'
       return args
     })
     config.plugins.delete('prefetch')
@@ -27,7 +27,8 @@ module.exports = {
       ])
     }
   },
-  publicPath: process.env.NODE_ENV === 'production' ? '/vis' : '/',
+  publicPath: process.env.NODE_ENV === 'production' ? '/pdgt' : '/',
+  outputDir: 'pdgt',
   css: {
     loaderOptions: {
       sass: {

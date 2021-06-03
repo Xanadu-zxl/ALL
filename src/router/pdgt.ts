@@ -1,6 +1,6 @@
 export default [
     {
-        path: '/pdgt',
+        path: '/inventory',
         name: 'Home',
         meta: {
             title: '资产运营驾驶舱'
@@ -9,11 +9,11 @@ export default [
         children: [
             {
                 path: '',
-                name: 'Inventory',
+                name: '/inventory',
                 component: () => import(/* webpackChunkName: "Home" */ '../views/pdgt/Inventory.vue'),
             },
             {
-                path: '/pdgt/warning',
+                path: '/warning',
                 name: 'Warning',
                 component: () => import(/* webpackChunkName: "Home" */ '../views/pdgt/Warning.vue'),
             }

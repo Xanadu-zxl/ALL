@@ -13,7 +13,7 @@
         >（套）</span
       >
     </div>
-    <div class="item bar-echartes" id="bar"></div>
+    <div class="item bar-echartes" :id="assets.id"></div>
   </div>
 </template>
 <script lang="ts">
@@ -30,7 +30,7 @@ export default defineComponent({
   },
   setup(props) {
     const createEcharts = () => {
-      const myChart = echarts.init(document.getElementById('bar'))
+      const myChart = echarts.init(document.getElementById(`${props.assets.id}`))
       myChart.setOption({
         xAxis: {
           type: 'value',

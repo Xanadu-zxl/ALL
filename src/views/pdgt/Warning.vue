@@ -72,6 +72,7 @@ export default defineComponent({
       number: 0,
       actual: 0,
       ideal: 1,
+      id: 'bar2',
     })
     const dataObj = reactive({
       type: [],

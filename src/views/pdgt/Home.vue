@@ -5,8 +5,8 @@
     </div>
     <div class="main">
       <div class="navs">
-        <router-link class="inventory" to="/pdgt">资产盘点</router-link>
-        <router-link class="warning" to="/pdgt/warning"
+        <router-link class="inventory" to="/inventory">资产盘点</router-link>
+        <router-link class="warning" to="/warning"
           >资产预警</router-link
         >
       </div>
