@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "axios": "^0.21.1",
+    "compression-webpack-plugin": "6.1.1",
     "core-js": "^3.6.5",
     "echarts": "^5.0.2",
     "vant": "^3.0.10",

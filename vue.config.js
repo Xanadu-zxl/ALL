@@ -4,8 +4,25 @@ const IS_PROD = ['production', 'prod'].includes(process.env.NODE_ENV)
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const path = require('path')
 const resolve = (dir) => path.join(__dirname, dir)
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const CompressionPlugin = require('compression-webpack-plugin')
 
 module.exports = {
+  configureWebpack: () => {
+    if (process.env.NODE_ENV === 'production') {
+      return {
+        plugins: [
+          new CompressionPlugin({
+            algorithm: 'gzip',
+            test: /\.(js|css)$/, // 匹配文件名
+            threshold: 10240, // 对超过1k的数据压缩
+            deleteOriginalAssets: false, // 不删除源文件
+            minRatio: 0.8, // 压缩比
+          }),
+        ],
+      }
+    }
+  },
   chainWebpack: (config) => {
     config.plugin('html').tap((args) => {
       args[0].title = '郫都国投'
