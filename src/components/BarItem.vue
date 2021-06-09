@@ -12,8 +12,13 @@ export default defineComponent({
   },
 
   setup(props) {
+    let myChart = null
     const createEcharts = () => {
-      const myChart = echarts.init(document.getElementById(props.chart.id))
+      if (myChart != null && myChart !== '' && myChart !== undefined) {
+        myChart.dispose()
+      }
+      // eslint-disable-next-line vue/no-mutating-props
+      myChart = echarts.init(document.getElementById(props.chart.id))
       myChart.setOption({
         xAxis: {
           type: 'value',
@@ -26,7 +31,7 @@ export default defineComponent({
         },
         grid: {
           bottom: 40,
-          right: 32,
+          right: 10,
           left: 12,
         },
         series: [
@@ -56,6 +61,7 @@ export default defineComponent({
             },
           },
           {
+            barMinHeight: '300',
             name: '总数',
             type: 'bar',
             stack: '总量',
@@ -66,7 +72,7 @@ export default defineComponent({
             },
             label: {
               show: true,
-              formatter: `{value| ${props.chart.molecular}/${props.chart.denominator - 1}}`,
+              formatter: `{value| ${props.chart.molecular}/${props.chart.denominator}}`,
               align: 'right',
               position: ['100%', -24],
               rich: {

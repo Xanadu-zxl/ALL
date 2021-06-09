@@ -202,7 +202,7 @@ export default defineComponent({
       assetsData.ideal = data.receivable_money[0] + 1
       assetsData.actual = data.receivable_money[1]
       dataObj.pieData.chartData.series[0].data = setData(data.status_quo)
-      dataObj.type = data.property_type
+      dataObj.type = data.property_type.reverse()
       dataObj.communitys.splice(1)
       dataObj.communitys = dataObj.communitys.concat(data.row_type)
     }

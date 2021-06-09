@@ -1,13 +1,20 @@
 <template>
   <div class="bars">
-    <div class="item" v-for="(item, index) in chartList" :key="item.index">
-      <img :src="imgUrl[index]" alt="" />
-      <Baritem class="chart" :chart="item"></Baritem>
+    <div class="bars-left block">
+      <div class="item" v-for="(item, index) in chartListLeft" :key="item.index">
+        <img :src="imgUrl[index]" alt="" />
+        <Baritem class="chart" :chart="item"></Baritem>
+      </div>
+    </div>
+    <div class="bars-right block">
+      <div class="item" v-for="(item, index) in chartListRight" :key="item.index">
+        <img :src="imgUrl[index]" alt="" />
+        <Baritem class="chart" :chart="item"></Baritem>
+      </div>
     </div>
   </div>
 </template>
 <script lang="ts">
-// import { defineComponent, reactive } from 'vue'
 import Baritem from '@/components/BarItem.vue'
 import global from '@/tool/global.ts'
 
@@ -27,28 +34,43 @@ export default {
   data() {
     return {
       imgUrl: global.iconUrl,
-      chartList: [
-        { id: 'cfBar', title: '标准厂房', molecular: 0, denominator: 1 },
-        { id: 'spBar', title: '零星商铺', molecular: 0, denominator: 1 },
-        { id: 'scBar', title: '农贸市场', molecular: 0, denominator: 1 },
-        { id: 'bgsBar', title: '办公楼', molecular: 0, denominator: 1 },
-        { id: 'xxBar', title: '学校', molecular: 0, denominator: 1 },
-        { id: 'ckBar', title: '仓库', molecular: 0, denominator: 1 },
-        { id: 'qtBar', title: '其他', molecular: 0, denominator: 1 },
+      chartListLeft: [
+        { id: 'cfBar', title: '标准厂房', molecular: 0, denominator: 0 },
+        { id: 'spBar', title: '零星商铺', molecular: 0, denominator: 0 },
+        { id: 'scBar', title: '农贸市场', molecular: 0, denominator: 0 },
+        { id: 'bgsBar', title: '办公楼', molecular: 0, denominator: 0 },
+      ],
+      chartListRight: [
+        { id: 'xxBar', title: '学校', molecular: 0, denominator: 0 },
+        { id: 'ckBar', title: '仓库', molecular: 0, denominator: 0 },
+        { id: 'qtBar', title: '其他', molecular: 0, denominator: 0 },
       ],
     }
   },
   methods: {
     setData(arr) {
-      this.chartList.forEach((chartList) => {
-        arr[0].forEach((res) => {
+      console.log('%c 🥫 arr: ', 'font-size:20px;background-color: #F5CE50;color:#fff;', this.type)
+      this.chartListLeft.forEach((chartList) => {
+        arr[1].forEach((res) => {
           if (chartList.title === res[0]) {
             chartList.molecular = res[1]
           }
         })
+        arr[0].forEach((res) => {
+          if (chartList.title === res[0]) {
+            chartList.denominator = res[1]
+          }
+        })
+      })
+      this.chartListRight.forEach((chartList) => {
         arr[1].forEach((res) => {
           if (chartList.title === res[0]) {
-            chartList.denominator = res[1] + 1
+            chartList.molecular = res[1]
+          }
+        })
+        arr[0].forEach((res) => {
+          if (chartList.title === res[0]) {
+            chartList.denominator = res[1]
           }
         })
       })
@@ -71,8 +93,17 @@ export default {
     }
 
     .chart {
-      flex: 1;
+      width: 90%;
       height: 32px;
+    }
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .bars {
+    display: flex;
+    .block {
+      width: 50%;
     }
   }
 }
