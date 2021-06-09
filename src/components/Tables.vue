@@ -159,7 +159,6 @@ export default defineComponent({
     })
 
     const showDetails = (item) => {
-      console.log(item)
       data.detail = item
       data.show = true
     }

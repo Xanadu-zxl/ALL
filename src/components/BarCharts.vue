@@ -13,7 +13,6 @@ export default {
   },
   watch: {
     histogram() {
-      console.log(this.histogram)
       this.createEcharts()
     },
   },

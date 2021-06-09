@@ -198,7 +198,6 @@ export default defineComponent({
       const {
         data: { data },
       } = await api.getWarning(params, status)
-      console.log('%c 🥩 data: ', 'font-size:20px;background-color: #3F7CFF;color:#fff;', data)
       assetsData.number = data.property_count
       assetsData.ideal = data.receivable_money[0] + 1
       assetsData.actual = data.receivable_money[1]

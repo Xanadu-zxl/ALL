@@ -1,4 +1,4 @@
-const iconUrl: any[] = [
+const iconUrl = [
   require('@/assets/svg/cf.svg'),
   require('@/assets/svg/sp.svg'),
   require('@/assets/svg/sc.svg'),

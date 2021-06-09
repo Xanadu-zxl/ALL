@@ -135,7 +135,6 @@ export default defineComponent({
 
   .item {
     position: relative;
-
     @include ddccc;
     height: 150px;
     width: 100%;
@@ -159,6 +158,15 @@ export default defineComponent({
   .bar-echartes {
     background: #f4f8ff;
     border-radius: 12px;
+  }
+}
+@media screen and (min-width: 768px) {
+  .bar {
+    flex-direction: row;
+
+    .item {
+      width: 50%;
+    }
   }
 }
 </style>
