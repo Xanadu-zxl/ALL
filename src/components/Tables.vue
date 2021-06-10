@@ -13,35 +13,17 @@
           :key="item.id"
           @click="showDetails(item)"
         >
-          <span class="tables-header_street">{{ item.street }}</span>
-          <span class="tables-header_name">{{ item.name }}</span>
-          <span class="tables-header_type">{{ item.type }}</span>
+          <span class="tables-header_street">{{ item[0] }}</span>
+          <span class="tables-header_name">{{ item[1] }}</span>
+          <span class="tables-header_type">{{ item[3] }}</span>
         </p>
       </main>
-      <footer class="tables-footer">
-        <van-pagination
-          v-model="currentPage"
-          mode="simple"
-          :page-count="100"
-        >
-          <template #prev-text>
-            <van-icon name="arrow-left" />
-          </template>
-          <template #next-text>
-            <van-icon name="arrow" />
-          </template>
-        </van-pagination>
-      </footer>
 
       <van-popup round :show="show" @click-overlay="onCancel">
         <div class="tables-popup">
           <h2 class="tables-popup_title">数据详情</h2>
           <div class="tables-popup_detail">
-            <p
-              class="tables-popup_item"
-              v-for="item in tableTitle"
-              :key="item.id"
-            >
+            <p class="tables-popup_item" v-for="item in tableTitle" :key="item.id">
               <span>{{ item.title }}</span>
               <span>{{ detail[item.name] }}</span>
             </p>
@@ -57,63 +39,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive, toRefs } from 'vue'
+import { defineComponent, reactive, toRefs } from 'vue'
 
 export default defineComponent({
   name: 'tables',
+  props: {
+    tableList: Object,
+  },
   setup() {
-    const currentPage = ref(1)
-    const tableList = [
-      {
-        lessee: '张三1',
-        rent: '7000/月',
-        contact: '120',
-        street: '古城街道',
-        name: '工厂',
-        type: '在租',
-      },
-      {
-        lessee: '张三2',
-        rent: '6000/月',
-        contact: '110',
-        street: '古城街道',
-        name: '大型工厂',
-        type: '在租',
-      },
-      {
-        lessee: '张三3',
-        rent: '6000/月',
-        contact: '110',
-        street: '古城街道',
-        name: '大型工厂',
-        type: '在租',
-      },
-      {
-        lessee: '张三4',
-        rent: '6000/月',
-        contact: '110',
-        street: '古城街道',
-        name: '大型工厂',
-        type: '在租',
-      },
-      {
-        lessee: '张三',
-        rent: '6000/月',
-        contact: '110',
-        street: '古城街道',
-        name: '大型工厂',
-        type: '在租',
-      },
-      {
-        lessee: '张三',
-        rent: '6000/月',
-        contact: '110',
-        street: '古城街道',
-        name: '大型工厂',
-        type: '在租',
-      },
-    ]
-
     const tableTitle = [
       {
         name: 'lessee',
@@ -140,15 +73,11 @@ export default defineComponent({
         title: '类型',
       },
       {
-        name: 'type',
-        title: '类型',
-      },
-      {
-        name: 'type',
+        name: 'signed',
         title: '合同签订',
       },
       {
-        name: 'type',
+        name: 'due',
         title: '合同到期',
       },
     ]
@@ -169,8 +98,6 @@ export default defineComponent({
     const onCancel = () => (data.show = false)
 
     return {
-      tableList,
-      currentPage,
       showDetails,
       showPopup,
       onCancel,
@@ -222,40 +149,10 @@ export default defineComponent({
     }
     .tables-header_type {
       width: 20%;
+      text-align: center;
     }
   }
-  .tables-footer {
-    margin: 16px 0 20px;
-    .van-pagination {
-      justify-content: center;
-      align-items: center;
 
-      .van-pagination__item {
-        width: 32px;
-        height: 32px;
-        background: #f4f4f8;
-        color: #3f3845;
-        border-radius: 4px;
-        flex: none;
-      }
-
-      .van-pagination__next::after,
-      .van-pagination__prev::after {
-        border: none;
-      }
-      .van-pagination__item:active {
-        color: #fff;
-        background-color: #a7a7aa;
-      }
-
-      .van-pagination__page-desc {
-        margin: 0px 26px;
-        height: 32px;
-        cursor: pointer;
-        flex: none;
-      }
-    }
-  }
   .van-popup {
     width: 90%;
     max-width: 680px;

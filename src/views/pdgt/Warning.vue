@@ -37,6 +37,16 @@
           </div>
         </div>
         <Tables />
+        <footer class="tables-footer">
+          <van-pagination v-model="currentPage" mode="simple" :page-count="100">
+            <template #prev-text>
+              <van-icon name="arrow-left" />
+            </template>
+            <template #next-text>
+              <van-icon name="arrow" />
+            </template>
+          </van-pagination>
+        </footer>
       </template>
     </Card>
 
@@ -47,7 +57,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, onBeforeMount, toRefs } from 'vue'
+import { defineComponent, ref, reactive, onBeforeMount, toRefs } from 'vue'
 import Pie from '@/components/Pie.vue'
 import Bar from '@/components/Bar.vue'
 import Bars from '@/components/Bars.vue'
@@ -68,6 +78,8 @@ export default defineComponent({
     data: Object,
   },
   setup() {
+    const currentPage = ref(1)
+
     const assetsData = reactive({
       number: 0,
       actual: 0,
@@ -213,6 +225,7 @@ export default defineComponent({
       onCancel,
       onConfirm,
       getWarning,
+      currentPage,
       switchNav,
       ...toRefs(dataObj),
     }
@@ -302,6 +315,39 @@ export default defineComponent({
     .navs-active {
       background: $pdgtColor;
       color: #fff;
+    }
+  }
+  .tables-footer {
+    margin: 16px 0 20px;
+
+    .van-pagination {
+      justify-content: center;
+      align-items: center;
+
+      .van-pagination__item {
+        width: 32px;
+        height: 32px;
+        background: #f4f4f8;
+        color: #3f3845;
+        border-radius: 4px;
+        flex: none;
+      }
+
+      .van-pagination__next::after,
+      .van-pagination__prev::after {
+        border: none;
+      }
+      .van-pagination__item:active {
+        color: #fff;
+        background-color: #a7a7aa;
+      }
+
+      .van-pagination__page-desc {
+        margin: 0px 26px;
+        height: 32px;
+        cursor: pointer;
+        flex: none;
+      }
     }
   }
 }

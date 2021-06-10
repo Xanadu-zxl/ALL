@@ -25,12 +25,22 @@
     <Card :title="tableData.title">
       <template v-slot:subtitle>
         <div class="header-subtitle" @click="showPopup(status)">
-          <span class="subtitle">{{ statusTitle }}</span>
+          <span class="subtitle">{{ statusTitle }}·{{ statusNumber }}</span>
           <van-icon color="#3F3845" class="arrow-down" name="arrow-down" />
         </div>
       </template>
       <template v-slot:chart>
-        <Tables />
+        <Tables :tableList="tableList" />
+        <footer class="tables-footer">
+          <van-pagination v-model="currentPage" mode="simple" :page-count="100">
+            <template #prev-text>
+              <van-icon name="arrow-left" />
+            </template>
+            <template #next-text>
+              <van-icon name="arrow" />
+            </template>
+          </van-pagination>
+        </footer>
       </template>
     </Card>
     <div class="title">
@@ -44,7 +54,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, toRefs, onBeforeMount } from 'vue'
+import { defineComponent, ref, reactive, toRefs, onBeforeMount } from 'vue'
 import Pie from '@/components/Pie.vue'
 import Bar from '@/components/Bar.vue'
 import Bars from '@/components/Bars.vue'
@@ -68,6 +78,8 @@ export default defineComponent({
   },
 
   setup() {
+    const currentPage = ref(1)
+
     const assets = reactive({
       number: 0,
       actual: 0,
@@ -75,6 +87,7 @@ export default defineComponent({
       id: 'bar2',
     })
     const dataObj = reactive({
+      tableList: [],
       type: [],
       histogram: [
         ['全部街道'],
@@ -152,8 +165,9 @@ export default defineComponent({
       },
       community: '全部街道',
       communitys: ['全部街道'],
-      statusTitle: '在租·1',
-      status: ['在租·1', '空闲·1', '合同纠纷·1'],
+      statusTitle: '在租',
+      statusNumber: 0,
+      status: ['在租', '空闲', '合同纠纷'],
       columns: [],
       show: false,
     })
@@ -222,6 +236,14 @@ export default defineComponent({
       })
       return histogram
     }
+    const getPaging = async (page, limit, status) => {
+      const {
+        data: { data },
+      } = await api.getPaging(page, limit, status)
+      console.log('%c 🍣 data: ', 'font-size:20px;background-color: #B03734;color:#fff;', data)
+      dataObj.tableList = data.property_value
+      dataObj.statusNumber = data.property_value.length
+    }
     // 请求数据
     const getAssets = async (params, status) => {
       const {
@@ -232,6 +254,7 @@ export default defineComponent({
       assets.actual = data.receivable_money[1]
       dataObj.pieData.chartData.series[0].data = setData(data.status_quo)
       dataObj.type = data.property_type
+
       dataObj.communitys.splice(1)
       dataObj.communitys = dataObj.communitys.concat(data.row_type)
       dataObj.histogram = setHistogram(data.property_distribution)
@@ -241,6 +264,8 @@ export default defineComponent({
       onCancel,
       onConfirm,
       getAssets,
+      getPaging,
+      currentPage,
       assets,
       ...toRefs(dataObj),
     }
@@ -255,10 +280,16 @@ export default defineComponent({
         }
       },
     },
+    statusTitle: {
+      handler(value) {
+        this.getPaging(1, 10, value)
+      },
+      immediate: true,
+    },
   },
 })
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
 .inventory {
   .title {
     @include djbac;
@@ -308,6 +339,39 @@ export default defineComponent({
     font-size: 14px;
     line-height: 18px;
     color: #95a4b3;
+  }
+  .tables-footer {
+    margin: 16px 0 20px;
+
+    .van-pagination {
+      justify-content: center;
+      align-items: center;
+
+      .van-pagination__item {
+        width: 32px;
+        height: 32px;
+        background: #f4f4f8;
+        color: #3f3845;
+        border-radius: 4px;
+        flex: none;
+      }
+
+      .van-pagination__next::after,
+      .van-pagination__prev::after {
+        border: none;
+      }
+      .van-pagination__item:active {
+        color: #fff;
+        background-color: #a7a7aa;
+      }
+
+      .van-pagination__page-desc {
+        margin: 0px 26px;
+        height: 32px;
+        cursor: pointer;
+        flex: none;
+      }
+    }
   }
 }
 </style>
