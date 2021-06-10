@@ -1,3 +1,2 @@
-## 没有数据，暂未对接
-- 租凭详情
-- 预警清单
+## 部署
+- scp -r Desktop/pdgt  root@vis.cdyoue.com:/usr/share/nginx/html

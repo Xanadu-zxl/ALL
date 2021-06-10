@@ -38,7 +38,6 @@ export default defineComponent({
           {
             name: props.chart.title,
             type: 'bar',
-            barMinHeight: 2,
             stack: '总量',
             data: [props.chart.molecular],
             barWidth: 4,
