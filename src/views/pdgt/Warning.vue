@@ -42,7 +42,7 @@
             @change="changePage"
             v-model="currentPage"
             mode="simple"
-            :page-count="pagination.count"
+            :page-count="count"
           >
             <template #prev-text>
               <van-icon name="arrow-left" />
@@ -86,7 +86,7 @@ export default defineComponent({
     const currentPage = ref(1)
 
     const changePage = () => {
-      if (this.isActive) {
+      if (dataObj.isActive) {
         getPagingCollecting(currentPage.value, 10, dataObj.statusTitle)
       } else {
         getPagingOverdueRemind(currentPage.value, 10, dataObj.statusTitle)
@@ -174,6 +174,7 @@ export default defineComponent({
       assets: 'assets',
       deadline: 'deadline',
       isActive: true,
+      count: 0,
     })
 
     // 切换选择的图表
@@ -213,13 +214,13 @@ export default defineComponent({
       const { data } = await api.getPagingCollecting(page, limit, status)
       dataObj.tableList = data.data
       dataObj.pagination = data.pagination
-      dataObj.pagination.count = Math.ceil(data.pagination.total / data.pagination.page_size)
+      dataObj.count = Math.ceil(data.pagination.total / data.pagination.page_size)
     }
     const getPagingOverdueRemind = async (page, limit, status) => {
       const { data } = await api.getPagingOverdueRemind(page, limit, status)
       dataObj.tableList = data.data
       dataObj.pagination = data.pagination
-      dataObj.pagination.count = Math.ceil(data.pagination.total / data.pagination.page_size)
+      dataObj.count = Math.ceil(data.pagination.total / data.pagination.page_size)
     }
     // 请求数据
     const getWarning = async (params, status) => {

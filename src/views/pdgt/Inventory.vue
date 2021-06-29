@@ -36,7 +36,7 @@
             @change="changePage"
             v-model="currentPage"
             mode="simple"
-            :page-count="pagination.count"
+            :page-count="count"
           >
             <template #prev-text>
               <van-icon name="arrow-left" />
@@ -96,6 +96,7 @@ export default defineComponent({
     })
     const dataObj = reactive({
       tableList: [],
+      count: 0,
       type: [],
       histogram: [
         ['全部街道'],
@@ -248,7 +249,7 @@ export default defineComponent({
       const { data } = await api.getPaging(page, limit, status)
       dataObj.tableList = data.data
       dataObj.pagination = data.pagination
-      dataObj.pagination.count = Math.ceil(data.pagination.total / data.pagination.page_size)
+      dataObj.count = Math.ceil(data.pagination.total / data.pagination.page_size)
     }
     // 请求数据
     const getAssets = async (params, status) => {
