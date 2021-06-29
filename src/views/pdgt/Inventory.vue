@@ -241,8 +241,8 @@ export default defineComponent({
         data: { data },
       } = await api.getPaging(page, limit, status)
       console.log('%c 🍣 data: ', 'font-size:20px;background-color: #B03734;color:#fff;', data)
-      dataObj.tableList = data.property_value
-      dataObj.statusNumber = data.property_value.length
+      dataObj.tableList = data
+      // dataObj.statusNumber = data.data.length
     }
     // 请求数据
     const getAssets = async (params, status) => {
@@ -254,7 +254,6 @@ export default defineComponent({
       assets.actual = data.receivable_money[1]
       dataObj.pieData.chartData.series[0].data = setData(data.status_quo)
       dataObj.type = data.property_type
-
       dataObj.communitys.splice(1)
       dataObj.communitys = dataObj.communitys.concat(data.row_type)
       dataObj.histogram = setHistogram(data.property_distribution)
@@ -289,7 +288,7 @@ export default defineComponent({
   },
 })
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .inventory {
   .title {
     @include djbac;

@@ -55,7 +55,7 @@ module.exports = {
   },
   devServer: {
     proxy: {
-      v1: {
+      apis: {
         target: 'http://vis.cdyoue.com', // 接口的域名
         changOrigin: true, // 开启代理，在本地创建一个虚拟服务端
       },

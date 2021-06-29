@@ -13,9 +13,9 @@
           :key="item.id"
           @click="showDetails(item)"
         >
-          <span class="tables-header_street">{{ item[0] }}</span>
-          <span class="tables-header_name">{{ item[1] }}</span>
-          <span class="tables-header_type">{{ item[3] }}</span>
+          <span class="tables-header_street">{{ item.street }}</span>
+          <span class="tables-header_name">{{ item.company }}</span>
+          <span class="tables-header_type">{{ item.type }}</span>
         </p>
       </main>
 
@@ -53,11 +53,11 @@ export default defineComponent({
         title: '承租人',
       },
       {
-        name: 'rent',
+        name: 'money',
         title: '租金',
       },
       {
-        name: 'contact',
+        name: 'phone',
         title: '联系方式',
       },
       {
@@ -65,7 +65,7 @@ export default defineComponent({
         title: '街道',
       },
       {
-        name: 'name',
+        name: 'company',
         title: '名称',
       },
       {
@@ -73,11 +73,11 @@ export default defineComponent({
         title: '类型',
       },
       {
-        name: 'signed',
+        name: 'start_time',
         title: '合同签订',
       },
       {
-        name: 'due',
+        name: 'end_time',
         title: '合同到期',
       },
     ]
@@ -182,6 +182,7 @@ export default defineComponent({
       font-size: 14px;
       line-height: 18px;
       padding: 16px;
+      display: flex;
 
       & span:first-child {
         font-weight: 500;
