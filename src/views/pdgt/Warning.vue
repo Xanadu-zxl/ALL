@@ -25,20 +25,25 @@
     <Card :title="tableData.title">
       <template v-slot:subtitle>
         <div class="header-subtitle" @click="showPopup(status)">
-          <span class="subtitle">{{ statusTitle }}</span>
+          <span class="subtitle">{{ statusTitle }}·{{ pagination.total }}</span>
           <van-icon color="#3F3845" class="arrow-down" name="arrow-down" />
         </div>
       </template>
       <template v-slot:chart>
         <div class="navs">
-          <div :class="assets" @click="switchNav(assets)">近月待收资产</div>
-          <div :class="deadline" @click="switchNav(deadline)">
+          <div :class="{ assets, active: isActive }" @click="switchNav(assets)">近月待收资产</div>
+          <div :class="{ deadline, active: !isActive }" @click="switchNav(deadline)">
             合同即将逾期
           </div>
         </div>
-        <Tables />
+        <Tables :tableList="tableList" />
         <footer class="tables-footer">
-          <van-pagination v-model="currentPage" mode="simple" :page-count="100">
+          <van-pagination
+            @change="changePage"
+            v-model="currentPage"
+            mode="simple"
+            :page-count="pagination.count"
+          >
             <template #prev-text>
               <van-icon name="arrow-left" />
             </template>
@@ -80,6 +85,14 @@ export default defineComponent({
   setup() {
     const currentPage = ref(1)
 
+    const changePage = () => {
+      if (this.isActive) {
+        getPagingCollecting(currentPage.value, 10, dataObj.statusTitle)
+      } else {
+        getPagingOverdueRemind(currentPage.value, 10, dataObj.statusTitle)
+      }
+    }
+
     const assetsData = reactive({
       number: 0,
       actual: 0,
@@ -87,6 +100,8 @@ export default defineComponent({
       id: 'bar2',
     })
     const dataObj = reactive({
+      tableList: [],
+      pagination: {},
       type: [],
       pieData: {
         title: '收租情况',
@@ -152,29 +167,18 @@ export default defineComponent({
       },
       community: '全部街道',
       communitys: ['全部街道'],
-      statusTitle: '在租·1',
-      status: ['在租·1', '空闲·1', '合同纠纷·0'],
+      statusTitle: '在租',
+      status: ['在租', '空闲', '合同纠纷'],
       columns: [],
       show: false,
-      assets: ['assets', 'navs-active'],
-      deadline: ['deadline'],
+      assets: 'assets',
+      deadline: 'deadline',
+      isActive: true,
     })
 
     // 切换选择的图表
     const switchNav = (el) => {
-      if (el.includes('navs-active')) {
-      } else {
-        if (dataObj.deadline.includes('navs-active')) {
-          dataObj.deadline.pop()
-        } else {
-          dataObj.deadline.push('navs-active')
-        }
-        if (dataObj.assets.includes('navs-active')) {
-          dataObj.assets.pop()
-        } else {
-          dataObj.assets.push('navs-active')
-        }
-      }
+      el === 'deadline' ? (dataObj.isActive = false) : (dataObj.isActive = true)
     }
     const showPopup = (column) => {
       dataObj.columns = column
@@ -205,6 +209,18 @@ export default defineComponent({
       })
       return arr
     }
+    const getPagingCollecting = async (page, limit, status) => {
+      const { data } = await api.getPagingCollecting(page, limit, status)
+      dataObj.tableList = data.data
+      dataObj.pagination = data.pagination
+      dataObj.pagination.count = Math.ceil(data.pagination.total / data.pagination.page_size)
+    }
+    const getPagingOverdueRemind = async (page, limit, status) => {
+      const { data } = await api.getPagingOverdueRemind(page, limit, status)
+      dataObj.tableList = data.data
+      dataObj.pagination = data.pagination
+      dataObj.pagination.count = Math.ceil(data.pagination.total / data.pagination.page_size)
+    }
     // 请求数据
     const getWarning = async (params, status) => {
       const {
@@ -226,7 +242,10 @@ export default defineComponent({
       onConfirm,
       getWarning,
       currentPage,
+      changePage,
       switchNav,
+      getPagingCollecting,
+      getPagingOverdueRemind,
       ...toRefs(dataObj),
     }
   },
@@ -237,6 +256,25 @@ export default defineComponent({
           this.getWarning('', '')
         } else {
           this.getWarning(value, '')
+        }
+      },
+    },
+    statusTitle: {
+      handler(value) {
+        if (this.isActive) {
+          this.getPagingCollecting(this.currentPage, 10, value)
+        } else {
+          this.getPagingOverdueRemind(this.currentPage, 10, value)
+        }
+      },
+      immediate: true,
+    },
+    isActive: {
+      handler() {
+        if (this.isActive) {
+          this.getPagingCollecting(this.currentPage, 10, this.statusTitle)
+        } else {
+          this.getPagingOverdueRemind(this.currentPage, 10, this.statusTitle)
         }
       },
     },
@@ -312,7 +350,7 @@ export default defineComponent({
       text-align: center;
       color: #6b7885;
     }
-    .navs-active {
+    .active {
       background: $pdgtColor;
       color: #fff;
     }

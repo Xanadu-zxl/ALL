@@ -25,14 +25,19 @@
     <Card :title="tableData.title">
       <template v-slot:subtitle>
         <div class="header-subtitle" @click="showPopup(status)">
-          <span class="subtitle">{{ statusTitle }}·{{ statusNumber }}</span>
+          <span class="subtitle">{{ statusTitle }}·{{ pagination.total }}</span>
           <van-icon color="#3F3845" class="arrow-down" name="arrow-down" />
         </div>
       </template>
       <template v-slot:chart>
         <Tables :tableList="tableList" />
         <footer class="tables-footer">
-          <van-pagination v-model="currentPage" mode="simple" :page-count="100">
+          <van-pagination
+            @change="changePage"
+            v-model="currentPage"
+            mode="simple"
+            :page-count="pagination.count"
+          >
             <template #prev-text>
               <van-icon name="arrow-left" />
             </template>
@@ -79,6 +84,9 @@ export default defineComponent({
 
   setup() {
     const currentPage = ref(1)
+    const changePage = () => {
+      getPaging(currentPage.value, 10, dataObj.statusTitle)
+    }
 
     const assets = reactive({
       number: 0,
@@ -166,7 +174,7 @@ export default defineComponent({
       community: '全部街道',
       communitys: ['全部街道'],
       statusTitle: '在租',
-      statusNumber: 0,
+      pagination: {},
       status: ['在租', '空闲', '合同纠纷'],
       columns: [],
       show: false,
@@ -237,12 +245,10 @@ export default defineComponent({
       return histogram
     }
     const getPaging = async (page, limit, status) => {
-      const {
-        data: { data },
-      } = await api.getPaging(page, limit, status)
-      console.log('%c 🍣 data: ', 'font-size:20px;background-color: #B03734;color:#fff;', data)
-      dataObj.tableList = data
-      // dataObj.statusNumber = data.data.length
+      const { data } = await api.getPaging(page, limit, status)
+      dataObj.tableList = data.data
+      dataObj.pagination = data.pagination
+      dataObj.pagination.count = Math.ceil(data.pagination.total / data.pagination.page_size)
     }
     // 请求数据
     const getAssets = async (params, status) => {
@@ -266,6 +272,7 @@ export default defineComponent({
       getPaging,
       currentPage,
       assets,
+      changePage,
       ...toRefs(dataObj),
     }
   },
@@ -281,7 +288,7 @@ export default defineComponent({
     },
     statusTitle: {
       handler(value) {
-        this.getPaging(1, 10, value)
+        this.getPaging(this.currentPage, 10, value)
       },
       immediate: true,
     },

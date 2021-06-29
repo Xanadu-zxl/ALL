@@ -10,4 +10,13 @@ export default {
   getPaging(page, limit, status) {
     return http.get(`apis/guotou/paging?page=${page}&page_size=${limit}&status_quo=${status}`, '')
   },
+  getPagingCollecting(page, limit, status) {
+    return http.get(`/apis/guotou/paging2?page=${page}&page_size=${limit}&status_quo=${status}`, '')
+  },
+  getPagingOverdueRemind(page, limit, status) {
+    return http.get(
+      `/apis/guotou/overdueRemind?page=${page}&page_size=${limit}&status_quo=${status}`,
+      '',
+    )
+  },
 }
