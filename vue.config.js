@@ -44,7 +44,7 @@ module.exports = {
       ])
     }
   },
-  publicPath: process.env.NODE_ENV === 'production' ? '/pdgt' : '/',
+  publicPath: process.env.NODE_ENV === 'production' ? '/' : '/',
   outputDir: 'pdgt',
   css: {
     loaderOptions: {
