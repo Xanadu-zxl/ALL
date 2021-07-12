@@ -98,6 +98,10 @@ export default defineComponent({
       actual: 0,
       ideal: 1,
       id: 'bar2',
+      percentage: '0',
+      title: '需收资产数',
+      left: '当月已收',
+      right: '当月应收',
     })
     const dataObj = reactive({
       tableList: [],
@@ -168,7 +172,7 @@ export default defineComponent({
       community: '全部街道',
       communitys: ['全部街道'],
       statusTitle: '在租',
-      status: ['在租', '空闲', '合同纠纷'],
+      status: ['在租', '闲置', '合同纠纷阶段'],
       columns: [],
       show: false,
       assets: 'assets',
@@ -230,6 +234,8 @@ export default defineComponent({
       assetsData.number = data.property_count
       assetsData.ideal = data.receivable_money[0] + 1
       assetsData.actual = data.receivable_money[1]
+      const percentage = (assetsData.actual / assetsData.ideal) * 100
+      assetsData.percentage = percentage.toFixed(2)
       dataObj.pieData.chartData.series[0].data = setData(data.status_quo)
       dataObj.type = data.property_type.reverse()
       dataObj.communitys.splice(1)

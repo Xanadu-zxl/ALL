@@ -93,6 +93,10 @@ export default defineComponent({
       actual: 0,
       ideal: 1,
       id: 'bar2',
+      percentage: '0',
+      title: '资产数量',
+      left: '已收',
+      right: '应收',
     })
     const dataObj = reactive({
       tableList: [],
@@ -143,23 +147,24 @@ export default defineComponent({
           series: [
             {
               bottom: '8%',
-              color: ['#35B0FF', '#857BFF', '#FF7474'],
               name: '房屋状态分布',
               type: 'pie',
               radius: ['25%', '40%'],
               avoidLabelOverlap: false,
               data: [
                 { value: 0, name: '在租' },
-                { value: 0, name: '空置' },
-                { value: 0, name: '合同纠纷' },
+                { value: 0, name: '闲置' },
+                { value: 0, name: '合同纠纷阶段' },
               ],
+              minAngle: 50,
               label: {
                 align: 'right',
                 formatter: '{b}\n{c}（{d}%)',
               },
               labelLine: {
-                length: 15,
-                length2: 6,
+                length: 10,
+                length2: 10,
+                minTurnAngle: 90,
               },
             },
           ],
@@ -182,7 +187,7 @@ export default defineComponent({
         prev: 0,
         total: 0,
       },
-      status: ['在租', '空闲', '合同纠纷'],
+      status: ['在租', '闲置', '合同纠纷阶段'],
       columns: [],
       show: false,
     })
@@ -265,6 +270,8 @@ export default defineComponent({
       assets.number = data.property_count
       assets.ideal = data.receivable_money[0] + 1
       assets.actual = data.receivable_money[1]
+      const percentage = (assets.actual / assets.ideal) * 100
+      assets.percentage = percentage.toFixed(2)
       dataObj.pieData.chartData.series[0].data = setData(data.status_quo)
       dataObj.type = data.property_type
       dataObj.communitys.splice(1)

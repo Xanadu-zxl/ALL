@@ -3,7 +3,7 @@
     <div class="tables">
       <header class="tables-header">
         <span class="tables-header_street">街道</span>
-        <span class="tables-header_name">名称</span>
+        <span class="tables-header_name">地址</span>
         <span class="tables-header_type">类型</span>
       </header>
       <main class="tables-main">
@@ -14,8 +14,8 @@
           @click="showDetails(item)"
         >
           <span class="tables-header_street">{{ item.street }}</span>
-          <span class="tables-header_name">{{ item.company }}</span>
-          <span class="tables-header_type">{{ item.type }}</span>
+          <span class="tables-header_name">{{ item.address }}</span>
+          <span class="tables-header_type">{{ item.status_quo }}</span>
         </p>
       </main>
 
@@ -49,28 +49,53 @@ export default defineComponent({
   setup() {
     const tableTitle = [
       {
-        name: 'lessee',
-        title: '承租人',
+        name: 'company',
+        title: '资产所属公司',
       },
       {
-        name: 'money',
-        title: '租金',
+        name: 'address',
+        title: '资产地址',
+      },
+      {
+        name: 'street',
+        title: '所属街道',
       },
       {
         name: 'phone',
-        title: '联系方式',
+        title: '联系电话',
       },
       {
         name: 'street',
         title: '街道',
       },
+            {
+        name: 'status_quo',
+        title: '资产现状',
+      },
+
       {
-        name: 'company',
-        title: '名称',
+        name: 'map',
+        title: '是否进行汇测',
+      },
+      {
+        name: 'source',
+        title: '资产来源',
       },
       {
         name: 'type',
-        title: '类型',
+        title: '资产类型',
+      },
+      {
+        name: 'certificate',
+        title: '所持权证',
+      },
+      {
+        name: 'rent_year',
+        title: '租凭权证',
+      },
+      {
+        name: 'increase',
+        title: '租金递增百分比（%）',
       },
       {
         name: 'start_time',
@@ -187,7 +212,7 @@ export default defineComponent({
       & span:first-child {
         font-weight: 500;
         color: #191f30;
-        width: 22%;
+        width: 30%;
         display: inline-block;
       }
       & span:last-child {

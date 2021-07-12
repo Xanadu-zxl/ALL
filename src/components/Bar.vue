@@ -2,7 +2,7 @@
   <!-- 粗进度条 -->
   <div class="bar">
     <div class="item">
-      <p class="item-title">资产数量</p>
+      <p class="item-title">{{ assets.title }}</p>
       <span
         ><count-to
           class="item-count"
@@ -13,7 +13,19 @@
         >（套）</span
       >
     </div>
-    <div class="item bar-echartes" :id="assets.id"></div>
+    <div class="item-bar">
+      <div class="item-bar__main">
+        <div class="item-bar__left">
+          <div class="item-bar-count">{{ assets.actual }}</div>
+          <div class="item-bar-title">{{ assets.left }}</div>
+        </div>
+        <div class="item-bar__right">
+          <div class="item-bar-count">{{ assets.ideal }}</div>
+          <div class="item-bar-title">{{ assets.right }}</div>
+        </div>
+      </div>
+      <div class="bar-echartes" :id="assets.id"></div>
+    </div>
   </div>
 </template>
 <script lang="ts">
@@ -34,7 +46,6 @@ export default defineComponent({
       myChart.setOption({
         xAxis: {
           type: 'value',
-          data: ['received', 'accountsReceivable'],
           show: false,
         },
         yAxis: {
@@ -42,15 +53,17 @@ export default defineComponent({
           show: false,
         },
         grid: {
-          bottom: 0,
-          right: 16,
-          left: 16,
+          top: 0,
+          bottom: '-50%',
+          left: '8%',
+          right: '-4%',
         },
         series: [
           {
-            name: '已收',
+            name: props.assets.left,
             type: 'bar',
-            stack: '总量',
+            // stack: '总量',
+            zlevel: 1,
             data: [props.assets.actual],
             barWidth: 20,
             itemStyle: {
@@ -59,19 +72,13 @@ export default defineComponent({
             },
             label: {
               show: true,
-              formatter: '{value| {c} }\n{name| {a} }',
-              align: 'left',
-              position: [-4, -80],
+              formatter: `{percentage| ${props.assets.percentage}%}`,
+              position: 'right',
               rich: {
-                value: {
-                  color: '#35B0FF',
-                  fontSize: 18,
-                  fontWeight: 500,
-                  lineHeight: 30,
-                },
-                name: {
-                  color: '#95A4B3',
+                percentage: {
+                  color: '#2196f3',
                   fontSize: 14,
+                  right: 10,
                   fontWeight: 400,
                   lineHeight: 30,
                 },
@@ -79,33 +86,15 @@ export default defineComponent({
             },
           },
           {
-            name: '应收',
+            name: props.assets.right,
             type: 'bar',
-            stack: '总量',
+            // stack: '总量',
+            barGap: '-100%',
+            barWidth: 20,
             data: [props.assets.ideal],
             itemStyle: {
               color: '#F0EFF4',
               borderRadius: [0, 4, 4, 0],
-            },
-            label: {
-              show: true,
-              formatter: `{value| ${props.assets.ideal - 1} }\n{name| {a} }`,
-              align: 'right',
-              position: ['100%', -80],
-              rich: {
-                value: {
-                  color: '#6B7885',
-                  fontSize: 18,
-                  fontWeight: 500,
-                  lineHeight: 30,
-                },
-                name: {
-                  color: '#95A4B3',
-                  fontSize: 14,
-                  fontWeight: 400,
-                  lineHeight: 30,
-                },
-              },
             },
           },
         ],
@@ -155,7 +144,39 @@ export default defineComponent({
       color: #da251d;
     }
   }
+  .item-bar {
+    position: relative;
+    @include ddccc;
+    width: 100%;
+
+    .item-bar__right {
+      text-align: right;
+    }
+    .item-bar__main {
+      width: 90%;
+      display: flex;
+      justify-content: space-between;
+      position: absolute;
+      top: 10px;
+
+      .item-bar-count {
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 24px;
+        color: #2196f3;
+        margin-top: 10px;
+      }
+      .item-bar-title {
+        margin-top: 6px;
+        font-size: 13px;
+        line-height: 17px;
+        color: #95a4b3;
+      }
+    }
+  }
   .bar-echartes {
+    height: 150px;
+    width: 100%;
     background: #f4f8ff;
     border-radius: 12px;
   }
