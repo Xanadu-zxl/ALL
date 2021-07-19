@@ -24,10 +24,10 @@
     </Card>
     <Card :title="tableData.title">
       <template v-slot:subtitle>
-        <div class="header-subtitle" @click="showPopup(status)">
+        <!-- <div class="header-subtitle" @click="showPopup(status)">
           <span class="subtitle">{{ statusTitle }}·{{ pagination.total }}</span>
           <van-icon color="#3F3845" class="arrow-down" name="arrow-down" />
-        </div>
+        </div> -->
       </template>
       <template v-slot:chart>
         <div class="navs">

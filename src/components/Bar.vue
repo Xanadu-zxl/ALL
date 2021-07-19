@@ -20,7 +20,7 @@
           <div class="item-bar-title">{{ assets.left }}</div>
         </div>
         <div class="item-bar__right">
-          <div class="item-bar-count">{{ assets.ideal }}</div>
+          <div class="item-bar-count">{{ assets.ideal - 1 }}</div>
           <div class="item-bar-title">{{ assets.right }}</div>
         </div>
       </div>
@@ -55,8 +55,8 @@ export default defineComponent({
         grid: {
           top: 0,
           bottom: '-50%',
-          left: '8%',
-          right: '-4%',
+          left: '6%',
+          right: '4%',
         },
         series: [
           {
