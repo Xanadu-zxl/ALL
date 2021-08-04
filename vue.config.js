@@ -8,6 +8,7 @@ const resolve = (dir) => path.join(__dirname, dir)
 const CompressionPlugin = require('compression-webpack-plugin')
 
 module.exports = {
+  publicPath: process.env.NODE_ENV === 'production' ? '/pdgt' : '/',
   configureWebpack: () => {
     if (process.env.NODE_ENV === 'production') {
       return {
@@ -44,8 +45,7 @@ module.exports = {
       ])
     }
   },
-  publicPath: process.env.NODE_ENV === 'production' ? '/pdgt' : '/',
-  outputDir: 'pdgt',
+
   css: {
     loaderOptions: {
       sass: {
